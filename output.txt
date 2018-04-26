@@ -1,7 +1,7 @@
-1. P->Q                        Assumption
-2. ¬Q                          Assumption
-6. ¬P                          NEGATION_INTRODUCTION 2 
-3. P                           Assumption
-4. Q                           MODUS_PONENS 1 3 
-5. ⊥                           CONTRADICTION_INDRODUCTION 2 4 
+1. P->Q		Assumption
+2. ¬Q 		Assumption
+3. | P		Assumption
+4. | Q		MODUS_PONENS
+5. | ⊥		CONTRADICTION_INDRODUCTION
+6. ¬P 		NEGATION_INTRODUCTION
 

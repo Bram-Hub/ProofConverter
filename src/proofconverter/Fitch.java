@@ -5,57 +5,50 @@ import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Fitch {
 	
+	private static String[] subProofRules = {"NEGATION_INTRODUCTION"};
+	private static Map<Integer, Proof> proofs;
+	
 	public static String parse(NodeList proofList) {
-		String output = "";
+		proofs = new HashMap<Integer, Proof>();
 		
 		for(int i = 0; i < proofList.getLength(); i++) {
 			Node proofNode = proofList.item(i);
 			
 			if(proofNode.getNodeType() == Node.ELEMENT_NODE) {
-				Element proof = (Element) proofNode;
-				
-				//Parse all assumptions first
-				NodeList assumptions = proof.getElementsByTagName("assumption");
-				for(int j = 0; j < assumptions.getLength(); j++) {
-					Node assumptionNode = assumptions.item(j);
-					
-					if(assumptionNode.getNodeType() == Node.ELEMENT_NODE) {
-						Element assumption = (Element) assumptionNode;
-						
-						String line = assumption.getAttribute("linenum");
-						String sentence = assumption.getElementsByTagName("sen").item(0).getTextContent();
-						
-						output += String.format("%-30s %s", line + ". " + parseSentence(sentence), "Assumption\r\n");
-					}
-				}
-				
-				//Parse every step of the proof
-				NodeList steps = proof.getElementsByTagName("step");
-				for(int j = 0; j < steps.getLength(); j++) {
-					Node stepNode = steps.item(j);
-					
-					if(stepNode.getNodeType() == Node.ELEMENT_NODE) {
-						Element step = (Element) stepNode;
-						
-						String line = step.getAttribute("linenum");
-						String sentence = step.getElementsByTagName("sen").item(0).getTextContent();
-						String rule = step.getElementsByTagName("rule").item(0).getTextContent();
-						rule.replaceAll("//_", " ");
-						
-						NodeList premiseList = step.getElementsByTagName("premise");
-						String premises = "";
-						for(int k = 0; k < premiseList.getLength(); k++) {
-							premises += premiseList.item(k).getTextContent() + " ";
-						}
-						
-						output += String.format("%-30s %s", line + ". " + parseSentence(sentence), rule + " " + premises + "\r\n");
-					}
-				}
+				Proof p = new Proof((Element) proofNode, "Fitch");
+				proofs.put(p.getID(), p);
 			}
 		}
+		
+		return PrintProof(proofs.get(1), 0);
+	}
+	
+	public static String PrintProof(Proof p, int indent) {
+		String output = "";
+		int proofLength = p.getNumSteps();
+		
+		for(int i = 0; i < proofLength; i++) {
+			Step s = p.getStep(i);
+			for(int j = 0; j < subProofRules.length; j++) {
+				if(s.getRule().equals(subProofRules[j])) {
+					output += PrintProof(proofs.get(Integer.valueOf(s.getPremise(0))), indent + 1);
+				}
+			}
+			output += s.getLineNum() + ". ";
+			for(int j = 0; j < indent; j++) {
+				output += "| ";
+			}
+			output += s.getSentence().printSentence() + "\t\t" + s.getRule() + "\r\n";
+		}
+		
+		System.out.println("Proof ID = " + p.getID());
+		System.out.println("-----------------------------------------------------------");
+		System.out.println(output);
 		
 		return output;
 	}
