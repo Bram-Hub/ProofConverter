@@ -1,0 +1,57 @@
+<?xml version = "1.0"?>
+<bram>
+	<Program>Fitch</Program>
+	<Version>1.0</Version>
+	<metadata></metadata>
+
+	<proof id="1">
+		
+		<assumption linenum="1">
+			<sen>(-> P Q)</sen>
+		</assumption>
+		<assumption linenum="2">
+			<sen>(&#172; Q)</sen>
+		</assumption>
+		
+		<goal>
+			<sen>(&#172; R)</sen>
+		</goal>
+		
+		<step linenum="6">
+			<sen>(&#172; P)</sen>
+			
+			<premise>2</premise>
+			
+			<rule>NEGATION_INTRODUCTION</rule>
+		</step>
+	</proof>
+	<proof id="2">
+		
+		<assumption linenum="3">
+			<sen>P</sen>
+		</assumption>
+		
+		<goal>
+			<sen>&#8869;</sen>
+		</goal>
+		
+		<step linenum="4">
+			<sen>Q</sen>
+			
+			<premise>1</premise>
+			<premise>3</premise>
+			
+			<rule>MODUS_PONENS</rule>
+		</step>
+		
+		<step linenum="5">
+			<sen>&#8869;</sen>
+			
+			<premise>2</premise>
+			<premise>4</premise>
+			
+			<rule>CONTRADICTION_INDRODUCTION</rule>
+		</step>
+		
+	</proof>
+</bram>
