@@ -32,12 +32,24 @@ public class Proof {
 			}
 		}
 		
-		NodeList stepList = proof.getElementsByTagName("step");
-		for(int i = 0; i < stepList.getLength(); i++) {
-			Node stepNode = stepList.item(i);
-			if(stepNode.getNodeType() == Node.ELEMENT_NODE) {
-				Step step = new Step((Element) stepNode);
-				this.steps.add(step);
+		if(this.type == "Fitch") {
+			NodeList stepList = proof.getElementsByTagName("step");
+			for(int i = 0; i < stepList.getLength(); i++) {
+				Node stepNode = stepList.item(i);
+				if(stepNode.getNodeType() == Node.ELEMENT_NODE) {
+					Step step = new Step((Element) stepNode);
+					this.steps.add(step);
+				}
+			}
+		}
+		else { //this.type == "Sequent"
+			NodeList stepList = proof.getElementsByTagName("step");
+			for(int i = 0; i < stepList.getLength(); i++) {
+				Node stepNode = stepList.item(i);
+				if(stepNode.getNodeType() == Node.ELEMENT_NODE) {
+					Step step = new SequentStep((Element) stepNode);
+					this.steps.add(step);
+				}
 			}
 		}
 	}

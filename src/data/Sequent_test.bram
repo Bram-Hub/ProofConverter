@@ -1,0 +1,34 @@
+<?xml version = "1.0"?>
+<bram>
+	<Program>Sequent</Program>
+	<Version>1.0</Version>
+	<metadata></metadata>
+
+	<proof id="0">
+		
+		<assumption linenum="0">
+			<sen>(-> P Q)</sen>
+			<raw>P &amp; Q #and maybe a comment here</raw>
+		</assumption>
+		<assumption linenum="1">
+			<sen>P</sen>
+		</assumption>
+		
+		<goal>
+			<sen>Q</sen>
+		</goal>
+		
+		<step linenum="2">
+			<sequent>
+				<ant>(-> P Q)</ant>
+				<ant>P</ant>
+			</sequent>
+			<sen>Q</sen>
+			
+			<premise>0</premise>
+			<premise>1</premise>
+			
+			<rule>MODUS_PONENS</rule>
+		</step>
+	</proof>
+</bram>
