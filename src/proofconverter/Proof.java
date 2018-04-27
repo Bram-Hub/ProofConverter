@@ -11,17 +11,24 @@ public class Proof {
 	private Sentence goal;
 	private List<Step> steps;
 	private String type;
+	private int startLine;
+	private int endLine;
 	
 	public Proof() {
 		this.id = -1;
 		this.goal = null;
 		this.steps = null;
+		this.startLine = -1;
+		this.endLine = -1;
 	}
 	
 	public Proof(Element proof, String t) {
 		this.type = t;
 		this.steps = new ArrayList<Step>();
 		this.id = Integer.parseInt(proof.getAttribute("id"));
+		this.startLine = Integer.MAX_VALUE;
+		this.endLine = 0;
+		
 		if(this.type == "Fitch") {
 			NodeList assumptionsList = proof.getElementsByTagName("assumption");
 			for(int i = 0; i < assumptionsList.getLength(); i++) {
@@ -29,6 +36,12 @@ public class Proof {
 				if(assumptionNode.getNodeType() == Node.ELEMENT_NODE) {
 					Step assumption = new Step((Element) assumptionNode);
 					this.steps.add(assumption);
+					if(assumption.getLineNum() < this.startLine) {
+						this.startLine = assumption.getLineNum();
+					}
+					if(assumption.getLineNum() > this.endLine) {
+						this.endLine = assumption.getLineNum();
+					}
 				}
 			}
 		
@@ -38,6 +51,12 @@ public class Proof {
 				if(stepNode.getNodeType() == Node.ELEMENT_NODE) {
 					Step step = new Step((Element) stepNode);
 					this.steps.add(step);
+					if(step.getLineNum() < this.startLine) {
+						this.startLine = step.getLineNum();
+					}
+					if(step.getLineNum() > this.endLine) {
+						this.endLine = step.getLineNum();
+					}
 				}
 			}
 		}
@@ -80,5 +99,13 @@ public class Proof {
 	
 	public String getType() {
 		return this.type;
+	}
+	
+	public int getStartLine() {
+		return this.startLine;
+	}
+	
+	public int getEndLine() {
+		return this.endLine;
 	}
 }

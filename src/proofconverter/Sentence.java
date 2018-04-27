@@ -56,7 +56,7 @@ public class Sentence {
 			type = "Disjunction";
 		} else if(operator.equals("¬")) {
 			type = "Negation";
-		} else if(operator.equals("->")) {
+		} else if(operator.equals("→")) {
 			type = "Conditional";
 		} else if(operator.equals("")) {
 			type = "Atomic";

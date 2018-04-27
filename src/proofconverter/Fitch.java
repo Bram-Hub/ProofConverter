@@ -39,7 +39,22 @@ public class Fitch {
 			}
 			String sentence = steps.get(i).getSentence().printSentence();
 			String rule = steps.get(i).getRule();
-			output += String.format("%-6s%-32s%-30s\r\n", lineNum, indent + sentence, rule);
+			String premises = "";
+			Boolean subProofPremise = false;
+			for(int j = 0; j < subProofRules.length; j++) {
+				if(rule.equals(subProofRules[j])) {
+					subProofPremise = true;
+					break;
+				} 
+			}
+			if(!subProofPremise) {
+				for(int k = 0; k < steps.get(i).getNumPremises(); k++) {
+					premises += " " + steps.get(i).getPremise(k);
+				}
+			} else {
+				premises += " " + proofs.get(Integer.valueOf(steps.get(i).getPremise(0))).getStartLine() + "-" + proofs.get(Integer.valueOf(steps.get(i).getPremise(0))).getEndLine();
+			}
+			output += String.format("%-6s%-32s%-30s\r\n", lineNum, indent + sentence, rule + premises);
 		}
 		
 		System.out.println(output);
