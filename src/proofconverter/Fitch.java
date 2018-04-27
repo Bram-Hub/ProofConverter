@@ -5,6 +5,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -12,6 +13,7 @@ public class Fitch {
 	
 	private static String[] subProofRules = {"NEGATION_INTRODUCTION"};
 	private static Map<Integer, Proof> proofs;
+	private static List<Step> steps = new ArrayList<Step>();
 	
 	public static String parse(NodeList proofList) {
 		proofs = new HashMap<Integer, Proof>();
@@ -25,32 +27,39 @@ public class Fitch {
 			}
 		}
 		
-		return PrintProof(proofs.get(1), 0);
+		setIndents(proofs.get(1), 0);
+		Collections.sort(steps, new StepComparer());
+		
+		String output = "";
+		for(int i = 0; i < steps.size(); i++) {
+			String lineNum = steps.get(i).getLineNum() + ". ";
+			String indent = "";
+			for(int j = 0; j < steps.get(i).getIndent(); j++) {
+				indent += "| ";
+			}
+			String sentence = steps.get(i).getSentence().printSentence();
+			String rule = steps.get(i).getRule();
+			output += String.format("%-6s%-32s%-30s\r\n", lineNum, indent + sentence, rule);
+		}
+		
+		System.out.println(output);
+		
+		return output;
 	}
 	
-	public static String PrintProof(Proof p, int indent) {
-		String output = "";
+	public static void setIndents(Proof p, int indent) {
 		int proofLength = p.getNumSteps();
 		
 		for(int i = 0; i < proofLength; i++) {
 			Step s = p.getStep(i);
+			s.setIndent(indent);
 			for(int j = 0; j < subProofRules.length; j++) {
 				if(s.getRule().equals(subProofRules[j])) {
-					output += PrintProof(proofs.get(Integer.valueOf(s.getPremise(0))), indent + 1);
+					setIndents(proofs.get(Integer.valueOf(s.getPremise(0))), indent + 1);
 				}
 			}
-			output += s.getLineNum() + ". ";
-			for(int j = 0; j < indent; j++) {
-				output += "| ";
-			}
-			output += s.getSentence().printSentence() + "\t\t" + s.getRule() + "\r\n";
+			steps.add(s);
 		}
-		
-		System.out.println("Proof ID = " + p.getID());
-		System.out.println("-----------------------------------------------------------");
-		System.out.println(output);
-		
-		return output;
 	}
 	
 	public static String parseSentence(String sentence) {

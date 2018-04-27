@@ -8,15 +8,18 @@ public class Step {
 	private Sentence sentence;
 	private String[] premises;
 	private String rule;
+	private int indent;
 	
 	public Step() {
 		sentence = null;
 		rule = "";
 		premises = new String[1];
 		premises[0] = "";
+		indent = 0;
 	}
 	
 	public Step(Element step) {
+		indent = 0;
 		lineNum = Integer.parseInt(step.getAttribute("linenum"));
 		sentence = new Sentence(step.getElementsByTagName("sen").item(0).getTextContent());
 		if(!(step.getElementsByTagName("rule").item(0) == null)) {
@@ -54,6 +57,14 @@ public class Step {
 	
 	public int getNumPremises() {
 		return premises.length;
+	}
+	
+	public int getIndent() {
+		return this.indent;
+	}
+	
+	public void setIndent(int i) {
+		this.indent = i;
 	}
 	
 	
