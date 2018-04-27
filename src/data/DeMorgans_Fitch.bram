@@ -56,7 +56,7 @@
 			
 			<premise>2</premise>
 			
-			<rule>OR_INTRO</rule>
+			<rule>OR_INTRODUCTION</rule>
 		</step>
 		
 		<step linenum="4">
@@ -85,7 +85,7 @@
 			
 			<premise>6</premise>
 			
-			<rule>OR_INTRO</rule>
+			<rule>OR_INTRODUCTION</rule>
 		</step>
 		
 		<step linenum="8">
