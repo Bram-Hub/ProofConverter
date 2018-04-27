@@ -4,13 +4,19 @@
 	<Version>1.0</Version>
 	<metadata></metadata>
 
-	<proof id="0">
+	<proof id="1">
 		
 		<assumption linenum="0">
+			<sequent>
+				<ant>(-> P Q)</ant>
+			</sequent>
 			<sen>(-> P Q)</sen>
 			<raw>P &amp; Q #and maybe a comment here</raw>
 		</assumption>
 		<assumption linenum="1">
+			<sequent>
+				<ant>P</ant>
+			</sequent>
 			<sen>P</sen>
 		</assumption>
 		

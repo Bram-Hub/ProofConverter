@@ -47,6 +47,9 @@ public class Runner {
 						if(proofType.equals("Fitch")) {
 							String output = Fitch.parse(proofList);
 							writer.println(output);
+						} else if (proofType.equals("Sequent")) {
+							String output = Sequent.parse(proofList);
+							writer.println(output);
 						} else {
 							System.out.println("ERROR: " + proofType + " is not a verified Program tag value for this program. Exiting.");
 							writer.close();

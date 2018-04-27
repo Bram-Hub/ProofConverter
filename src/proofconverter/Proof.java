@@ -22,17 +22,16 @@ public class Proof {
 		this.type = t;
 		this.steps = new ArrayList<Step>();
 		this.id = Integer.parseInt(proof.getAttribute("id"));
-		
-		NodeList assumptionsList = proof.getElementsByTagName("assumption");
-		for(int i = 0; i < assumptionsList.getLength(); i++) {
-			Node assumptionNode = assumptionsList.item(i);
-			if(assumptionNode.getNodeType() == Node.ELEMENT_NODE) {
-				Step assumption = new Step((Element) assumptionNode);
-				this.steps.add(assumption);
-			}
-		}
-		
 		if(this.type == "Fitch") {
+			NodeList assumptionsList = proof.getElementsByTagName("assumption");
+			for(int i = 0; i < assumptionsList.getLength(); i++) {
+				Node assumptionNode = assumptionsList.item(i);
+				if(assumptionNode.getNodeType() == Node.ELEMENT_NODE) {
+					Step assumption = new Step((Element) assumptionNode);
+					this.steps.add(assumption);
+				}
+			}
+		
 			NodeList stepList = proof.getElementsByTagName("step");
 			for(int i = 0; i < stepList.getLength(); i++) {
 				Node stepNode = stepList.item(i);
@@ -43,6 +42,15 @@ public class Proof {
 			}
 		}
 		else { //this.type == "Sequent"
+			NodeList assumptionsList = proof.getElementsByTagName("assumption");
+			for(int i = 0; i < assumptionsList.getLength(); i++) {
+				Node assumptionNode = assumptionsList.item(i);
+				if(assumptionNode.getNodeType() == Node.ELEMENT_NODE) {
+					Step assumption = new SequentStep((Element) assumptionNode);
+					this.steps.add(assumption);
+				}
+			}
+			
 			NodeList stepList = proof.getElementsByTagName("step");
 			for(int i = 0; i < stepList.getLength(); i++) {
 				Node stepNode = stepList.item(i);

@@ -14,4 +14,8 @@ public class SequentStep extends Step {
 			sequent[i] = new Sentence(sequentList.item(i).getTextContent());
 		}
 	}
+	
+	public Sentence[] getSequent() {
+		return sequent;
+	}
 }

@@ -20,7 +20,7 @@ public class Sequent {
 			Node proofNode = proofList.item(i);
 			
 			if(proofNode.getNodeType() == Node.ELEMENT_NODE) {
-				Proof p = new Proof((Element) proofNode, "Fitch");
+				Proof p = new Proof((Element) proofNode, "Sequent");
 				proofs.put(p.getID(), p);
 			}
 		}
@@ -33,17 +33,27 @@ public class Sequent {
 		int proofLength = p.getNumSteps();
 		
 		for(int i = 0; i < proofLength; i++) {
-			Step s = p.getStep(i);
-			for(int j = 0; j < subProofRules.length; j++) {
-				if(s.getRule().equals(subProofRules[j])) {
-					output += PrintProof(proofs.get(Integer.valueOf(s.getPremise(0))), indent + 1);
+			SequentStep s = (SequentStep) p.getStep(i);
+//			for(int j = 0; j < subProofRules.length; j++) {
+//				if(s.getRule().equals(subProofRules[j])) {
+//					output += PrintProof(proofs.get(Integer.valueOf(s.getPremise(0))), indent + 1);
+//				}
+//			}
+			String lineNum = s.getLineNum() + ". { ";
+			String sequentStr = "";
+			Sentence[] sequent = s.getSequent();
+			for(int j = 0; j < sequent.length; j++) {
+				if(j != sequent.length - 1) {
+					sequentStr += sequent[j].printSentence() + ", ";
+				}
+				else {
+					sequentStr += sequent[j].printSentence() + " } \u22a8 ";
 				}
 			}
-			output += s.getLineNum() + ". ";
-			for(int j = 0; j < indent; j++) {
-				output += "| ";
-			}
-			output += s.getSentence().printSentence() + "\t\t" + s.getRule() + "\r\n";
+			String sen = s.getSentence().printSentence();
+			String rule = s.getRule();
+			//output += s.getSentence().printSentence() + "\t\t" + s.getRule() + "\r\n";
+			output += String.format("%-6s%-32s%-30s\r\n", lineNum, sequentStr + sen, rule);
 		}
 		
 		System.out.println("Proof ID = " + p.getID());
