@@ -1,0 +1,101 @@
+<?xml version = "1.0"?>
+<bram>
+	<Program>Fitch</Program>
+	<Version>1.0</Version>
+	<metadata></metadata>
+
+	<proof id="1">
+		
+		<assumption linenum="1">
+			<sen>(&#172; (&#8743; P Q))</sen>
+		</assumption>
+		
+		<goal>
+			<sen>(&#8743; (&#172; P) (&#172; Q))</sen>
+		</goal>
+		
+		<step linenum="5">
+			<sen>(&#172; P)</sen>
+			
+			<premise>2</premise>
+			
+			<rule>NEGATION_INTRODUCTION</rule>
+		</step>
+		
+		<step linenum="9">
+			<sen>(&#172; Q)</sen>
+			
+			<premise>3</premise>
+			
+			<rule>NEGATION_INTRODUCTION</rule>
+		</step>
+		
+		<step linenum="10">
+			<sen>(&#8743; (&#172; P) (&#172; Q))</sen>
+			
+			<premise>5</premise>
+			<premise>9</premise>
+			
+			<rule>AND_INTRODUCTION</rule>
+		</step>
+		
+	</proof>
+	
+	<proof id="2">
+		
+		<assumption linenum="2">
+			<sen>P</sen>
+		</assumption>
+		
+		<goal>
+			<sen>&#8869;</sen>
+		</goal>
+		
+		<step linenum="3">
+			<sen>(&#8744; P Q)</sen>
+			
+			<premise>2</premise>
+			
+			<rule>OR_INTRO</rule>
+		</step>
+		
+		<step linenum="4">
+			<sen>&#8869;</sen>
+			
+			<premise>1</premise>
+			<premise>3</premise>
+			
+			<rule>CONTRADICTION_INDRODUCTION</rule>
+		</step>
+		
+	</proof>
+	
+	<proof id="3">
+		
+		<assumption linenum="6">
+			<sen>Q</sen>
+		</assumption>
+		
+		<goal>
+			<sen>&#8869;</sen>
+		</goal>
+		
+		<step linenum="7">
+			<sen>(&#8744; P Q)</sen>
+			
+			<premise>6</premise>
+			
+			<rule>OR_INTRO</rule>
+		</step>
+		
+		<step linenum="8">
+			<sen>&#8869;</sen>
+			
+			<premise>1</premise>
+			<premise>7</premise>
+			
+			<rule>CONTRADICTION_INDRODUCTION</rule>
+		</step>
+		
+	</proof>
+</bram>
