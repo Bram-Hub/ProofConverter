@@ -58,6 +58,8 @@ public class Sentence {
 			type = "Negation";
 		} else if(operator.equals("→")) {
 			type = "Conditional";
+		} else if(operator.equals("↔")) {
+			type = "Biconditional";
 		} else if(operator.equals("")) {
 			type = "Atomic";
 		}

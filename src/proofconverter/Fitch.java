@@ -1,8 +1,10 @@
 package proofconverter;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
+import org.w3c.dom.Attr;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,6 +62,42 @@ public class Fitch {
 		System.out.println(output);
 		
 		return output;
+	}
+	
+	public static Document convert(NodeList proofList, Document outputDoc) {
+		proofs = new HashMap<Integer, Proof>();
+		
+		for(int i = 0; i < proofList.getLength(); i++) {
+			Node proofNode = proofList.item(i);
+			
+			if(proofNode.getNodeType() == Node.ELEMENT_NODE) {
+				Proof p = new Proof((Element) proofNode, "Fitch");
+				proofs.put(p.getID(), p);
+			}
+		}
+		
+		Element rootElement = outputDoc.createElement("bram");
+		
+		Element program = outputDoc.createElement("Program");
+		program.appendChild(outputDoc.createTextNode("Sequent"));
+		
+		Element version = outputDoc.createElement("Version");
+		version.appendChild(outputDoc.createTextNode("1.0"));
+		
+		Element metadata = outputDoc.createElement("metadata");
+		metadata.appendChild(outputDoc.createTextNode(" "));
+		
+		Element proof = outputDoc.createElement("proof");
+		proof.setAttribute("id", "1");
+		
+		rootElement.appendChild(program);
+		rootElement.appendChild(version);
+		rootElement.appendChild(metadata);
+		rootElement.appendChild(proof);
+		
+		outputDoc.appendChild(rootElement);
+		
+		return outputDoc;
 	}
 	
 	public static void setIndents(Proof p, int indent) {
