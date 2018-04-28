@@ -25,7 +25,7 @@ public class Step {
 		if(!(step.getElementsByTagName("rule").item(0) == null)) {
 			rule = step.getElementsByTagName("rule").item(0).getTextContent();
 		} else {
-			rule = "Assumption";
+			rule = "ASSUMPTION";
 		}
 		
 		NodeList premiseList = step.getElementsByTagName("premise");
