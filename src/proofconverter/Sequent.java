@@ -41,13 +41,13 @@ public class Sequent {
 //			}
 			String lineNum = s.getLineNum() + ". {";
 			String sequentStr = "";
-			Sentence[] sequent = s.getSequent();
-			for(int j = 0; j < sequent.length; j++) {
-				if(j != sequent.length - 1) {
-					sequentStr += sequent[j].printSentence() + ", ";
+			List<Sentence> sequent = s.getSequent();
+			for(int j = 0; j < sequent.size(); j++) {
+				if(j != sequent.size() - 1) {
+					sequentStr += (sequent.get(j)).printSentence() + ", ";
 				}
 				else {
-					sequentStr += sequent[j].printSentence() + " } \u22a8 ";
+					sequentStr += (sequent.get(j)).printSentence() + " } \u22a8 ";
 				}
 			}
 			String sen = s.getSentence().printSentence();
