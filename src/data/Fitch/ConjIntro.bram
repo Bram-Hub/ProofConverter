@@ -7,15 +7,14 @@
 	<proof id="1">
 		
 		<assumption linenum="1">
-			<sen>(&#8594; P Q)</sen>
-			<raw>P &amp; Q #and maybe a comment here</raw>
+			<sen>P</sen>
 		</assumption>
 		<assumption linenum="2">
-			<sen>P</sen>
+			<sen>(→ P Q)</sen>
 		</assumption>
 		
 		<goal>
-			<sen>Q</sen>
+			<sen>(∧ P Q)</sen>
 		</goal>
 		
 		<step linenum="3">
@@ -24,7 +23,16 @@
 			<premise>1</premise>
 			<premise>2</premise>
 			
-			<rule>MODUS_PONENS</rule>
+			<rule>CONDITIONAL_ELIMINATION</rule>
+		</step>
+		
+		<step linenum="4">
+			<sen>(∧ P Q)</sen>
+			
+			<premise>1</premise>
+			<premise>3</premise>
+			
+			<rule>CONJUNCTION_INTRODUCTION</rule>
 		</step>
 	</proof>
 </bram>

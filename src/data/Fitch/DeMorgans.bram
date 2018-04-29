@@ -7,15 +7,15 @@
 	<proof id="1">
 		
 		<assumption linenum="1">
-			<sen>(&#172; (&#8743; P Q))</sen>
+			<sen>(¬ (∨ P Q))</sen>
 		</assumption>
 		
 		<goal>
-			<sen>(&#8743; (&#172; P) (&#172; Q))</sen>
+			<sen>(∧ (¬ P) (¬ Q))</sen>
 		</goal>
 		
 		<step linenum="5">
-			<sen>(&#172; P)</sen>
+			<sen>(¬ P)</sen>
 			
 			<premise>2</premise>
 			
@@ -31,7 +31,7 @@
 		</step>
 		
 		<step linenum="10">
-			<sen>(&#8743; (&#172; P) (&#172; Q))</sen>
+			<sen>(∧ (¬ P) (¬ Q))</sen>
 			
 			<premise>5</premise>
 			<premise>9</premise>
@@ -48,11 +48,11 @@
 		</assumption>
 		
 		<goal>
-			<sen>&#8869;</sen>
+			<sen>⊥</sen>
 		</goal>
 		
 		<step linenum="3">
-			<sen>(&#8744; P Q)</sen>
+			<sen>(∨ P Q)</sen>
 			
 			<premise>2</premise>
 			
@@ -60,7 +60,7 @@
 		</step>
 		
 		<step linenum="4">
-			<sen>&#8869;</sen>
+			<sen>⊥</sen>
 			
 			<premise>1</premise>
 			<premise>3</premise>
@@ -77,11 +77,11 @@
 		</assumption>
 		
 		<goal>
-			<sen>&#8869;</sen>
+			<sen>⊥</sen>
 		</goal>
 		
 		<step linenum="7">
-			<sen>(&#8744; P Q)</sen>
+			<sen>(∨ P Q)</sen>
 			
 			<premise>6</premise>
 			
@@ -89,7 +89,7 @@
 		</step>
 		
 		<step linenum="8">
-			<sen>&#8869;</sen>
+			<sen>⊥</sen>
 			
 			<premise>1</premise>
 			<premise>7</premise>

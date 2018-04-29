@@ -61,7 +61,7 @@
 			<premise>2</premise>
 			<premise>3</premise>
 			
-			<rule>MODUS_PONENS</rule>
+			<rule>CONDITIONAL_ELIMINATION</rule>
 		</step>
 		
 		<step linenum="5">
@@ -70,7 +70,7 @@
 			<premise>1</premise>
 			<premise>3</premise>
 			
-			<rule>MODUS_PONENS</rule>
+			<rule>CONDITIONAL_ELIMINATION</rule>
 		</step>
 		
 		<step linenum="6">
@@ -79,7 +79,7 @@
 			<premise>4</premise>
 			<premise>5</premise>
 			
-			<rule>MODUS_PONENS</rule>
+			<rule>CONDITIONAL_ELIMINATION</rule>
 		</step>
 		
 	</proof>

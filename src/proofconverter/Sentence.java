@@ -29,9 +29,22 @@ public class Sentence {
 			} else {
 				for(int i = 0; i < s.length(); i++) {
 					if(s.charAt(i) == '(') {
-						sentences.add(new Sentence(s.substring(i, s.indexOf(')') + 1)));
-						s = s.substring(s.indexOf(')') + 1, s.length());
-						i = -1;
+						int j = i + 1, parentheses = 1;
+						while(parentheses != 0) {
+							if(s.charAt(j) == '(') {
+								parentheses++;
+							} else if(s.charAt(j) == ')') {
+								parentheses--;
+							}
+							j++;
+						}
+						sentences.add(new Sentence(s.substring(i, j)));
+						if(j != s.length()) {
+							s = s.substring(j + 1, s.length());
+							i = -1;
+						} else {
+							break;
+						}
 					} else if(s.charAt(i) != ' ') {
 						if(s.indexOf(' ') == -1) {
 							sentences.add(new Sentence(s.substring(i, s.length())));
