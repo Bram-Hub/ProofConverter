@@ -39,7 +39,7 @@ public class Sequent {
 //					output += PrintProof(proofs.get(Integer.valueOf(s.getPremise(0))), indent + 1);
 //				}
 //			}
-			String lineNum = s.getLineNum() + ". {";
+			String lineNum = s.getLineNum() + ". { ";
 			String sequentStr = "";
 			Sentence[] sequent = s.getSequent();
 			for(int j = 0; j < sequent.length; j++) {
@@ -53,7 +53,7 @@ public class Sequent {
 			String sen = s.getSentence().printSentence();
 			String rule = s.getRule();
 			//output += s.getSentence().printSentence() + "\t\t" + s.getRule() + "\r\n";
-			output += String.format("%-6s%-50s%-30s\r\n", lineNum, sequentStr + sen, rule);
+			output += String.format("%-6s%-40s%-30s\r\n", lineNum, sequentStr + sen, rule);
 		}
 		
 		System.out.println("Proof ID = " + p.getID());

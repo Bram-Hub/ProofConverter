@@ -22,6 +22,7 @@ public class Proof {
 		this.endLine = -1;
 	}
 	
+	//Creating a Proof from an xml element, used for parsing purposes.
 	public Proof(Element proof, String t) {
 		this.type = t;
 		this.steps = new ArrayList<Step>();
@@ -29,7 +30,7 @@ public class Proof {
 		this.startLine = Integer.MAX_VALUE;
 		this.endLine = 0;
 		
-		if(this.type == "Fitch") {
+		if(this.type.equals("Fitch")) {
 			NodeList assumptionsList = proof.getElementsByTagName("assumption");
 			for(int i = 0; i < assumptionsList.getLength(); i++) {
 				Node assumptionNode = assumptionsList.item(i);
@@ -59,8 +60,7 @@ public class Proof {
 					}
 				}
 			}
-		}
-		else { //this.type == "Sequent"
+		} else if(this.type.equals("Sequent")) { 
 			NodeList assumptionsList = proof.getElementsByTagName("assumption");
 			for(int i = 0; i < assumptionsList.getLength(); i++) {
 				Node assumptionNode = assumptionsList.item(i);
@@ -77,6 +77,22 @@ public class Proof {
 					Step step = new SequentStep((Element) stepNode);
 					this.steps.add(step);
 				}
+			}
+		}
+	}
+	
+	public Proof(int newID, List<Step> s, String t) {
+		this.id = newID;
+		this.steps = s;
+		this.type = t;
+		this.startLine = Integer.MAX_VALUE;
+		this.endLine = 0;
+		for(int i = 0; i < this.steps.size(); i ++) {
+			if(this.steps.get(i).getLineNum() < this.startLine) {
+				this.startLine = this.steps.get(i).getLineNum();
+			}
+			if(this.steps.get(i).getLineNum() > this.endLine) {
+				this.endLine = this.steps.get(i).getLineNum();
 			}
 		}
 	}

@@ -1,0 +1,88 @@
+<?xml version = "1.0"?>
+<bram>
+	<Program>Fitch</Program>
+	<Version>1.0</Version>
+	<metadata></metadata>
+
+	<proof id="1">
+		
+		<assumption linenum="1">
+			<sen>(&#8594; P (&#8594; Q R))</sen>
+		</assumption>
+		
+		
+		<goal>
+			<sen>(&#8594; (&#8594; P Q) (&#8594; P R))</sen>
+		</goal>
+		
+		<step linenum="8">
+			
+			<sen>(&#8594; (&#8594; P Q) (&#8594; P R))</sen>
+			
+			<premise>2</premise>
+			
+			<rule>CONDITIONAL_INTRODUCTION</rule>
+		</step>
+	</proof>
+	
+	<proof id="2">
+	
+		<assumption linenum="2">
+			<sen>(&#8594; P Q)</sen>
+		</assumption>
+		
+		<goal>
+			<sen>(&#8594; P R)</sen>
+		</goal>
+		
+		<step linenum="7">
+			<sen>(&#8594; P R)</sen>
+			
+			<premise>3</premise>
+			
+			<rule>CONDITIONAL_INTRODUCTION</rule>
+		</step>
+	
+	</proof>
+	
+	<proof id="3">
+	
+		<assumption linenum="3">
+			<sen>P</sen>
+		</assumption>
+		
+		<goal>
+			<sen>R</sen>
+		</goal>
+		
+		<step linenum="4">
+			<sen>Q</sen>
+			
+			<premise>2</premise>
+			<premise>3</premise>
+			
+			<rule>MODUS_PONENS</rule>
+		</step>
+		
+		<step linenum="5">
+			<sen>(&#8594; Q R)</sen>
+			
+			<premise>1</premise>
+			<premise>3</premise>
+			
+			<rule>MODUS_PONENS</rule>
+		</step>
+		
+		<step linenum="6">
+			<sen>R</sen>
+			
+			<premise>4</premise>
+			<premise>5</premise>
+			
+			<rule>MODUS_PONENS</rule>
+		</step>
+		
+	</proof>
+	
+	
+</bram>

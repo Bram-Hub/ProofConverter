@@ -4,11 +4,11 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Element;
 
 public class Step {
-	private int lineNum;
-	private Sentence sentence;
-	private String[] premises;
-	private String rule;
-	private int indent;
+	protected int lineNum;
+	protected Sentence sentence;
+	protected String[] premises;
+	protected String rule;
+	protected int indent;
 	
 	public Step() {
 		sentence = null;
@@ -32,6 +32,16 @@ public class Step {
 		premises = new String[premiseList.getLength()];
 		for(int i = 0; i < premiseList.getLength(); i++) {
 			premises[i] = premiseList.item(i).getTextContent();
+		}
+	}
+	
+	public Step(Step s) {
+		this.lineNum = s.getLineNum();
+		this.sentence = s.getSentence();
+		this.rule = s.getRule();
+		this.premises = new String[s.getNumPremises()];
+		for(int i = 0; i < premises.length; i++) {
+			this.premises[i] = s.getPremise(i);
 		}
 	}
 	

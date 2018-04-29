@@ -77,9 +77,32 @@ public class Sentence {
 		} else {
 			String output = "";
 			for(int i = 0; i < sentences.size() - 1; i++) {
-				output += sentences.get(i).printSentence() + " " + operator;
+				if(sentences.get(i).getType().equals("Atomic")) {
+					output += sentences.get(i).printSentence() + " " + operator;
+				} else {
+					output += "(" + sentences.get(i).printSentence() + ")" + " " + operator;
+				}
 			}
-			output +=  " " + sentences.get(sentences.size() - 1).printSentence();
+			if(sentences.get(sentences.size() - 1).getType().equals("Atomic")) {
+				output += " " + sentences.get(sentences.size() - 1).printSentence();
+			} else {
+				output += " (" + sentences.get(sentences.size() - 1).printSentence() + ")";
+			}
+			return output;
+		}
+	}
+	
+	public String printSentencePrefix() {
+		if(type == "Atomic") {
+			return singleSentence.printSentence();
+		} else if(type == "Negation") {
+			return "(" + operator + singleSentence.printSentencePrefix() + ")";
+		} else {
+			String output = "(" + operator;
+			for(int i = 0; i < sentences.size(); i++) {
+				output += " " + sentences.get(i).printSentencePrefix();
+			}
+			output += ")";
 			return output;
 		}
 	}

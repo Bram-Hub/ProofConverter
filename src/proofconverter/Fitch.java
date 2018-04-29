@@ -4,12 +4,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
-import org.w3c.dom.Attr;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class Fitch {
 	
@@ -76,6 +76,8 @@ public class Fitch {
 			}
 		}
 		
+		Proof newProof = convertProof();
+		
 		Element rootElement = outputDoc.createElement("bram");
 		
 		Element program = outputDoc.createElement("Program");
@@ -89,6 +91,62 @@ public class Fitch {
 		
 		Element proof = outputDoc.createElement("proof");
 		proof.setAttribute("id", "1");
+		
+		for(int i = 0; i < newProof.getNumSteps(); i++) {
+			Step s = newProof.getStep(i);
+			if(s.getRule().equals("ASSUMPTION")) {
+				Element assumption = outputDoc.createElement("assumption");
+				assumption.setAttribute("linenum", Integer.toString(s.getLineNum()));
+				
+				Element sequent = outputDoc.createElement("sequent");
+				Sentence[] seq = ((SequentStep) s).getSequent();
+				
+				for(int j = 0; j < seq.length; j++) {
+					Element ant = outputDoc.createElement("ant");
+					ant.appendChild(outputDoc.createTextNode(seq[j].printSentencePrefix()));
+					sequent.appendChild(ant);
+				}
+				
+				Element sen = outputDoc.createElement("sen");
+				sen.appendChild(outputDoc.createTextNode(s.getSentence().printSentencePrefix()));
+				
+				assumption.appendChild(sequent);
+				assumption.appendChild(sen);
+				
+				proof.appendChild(assumption);
+			} else {
+				Element step = outputDoc.createElement("step");
+				step.setAttribute("linenum", Integer.toString(s.getLineNum()));
+				
+				Element sequent = outputDoc.createElement("sequent");
+				Sentence[] seq = ((SequentStep) s).getSequent();
+				
+				for(int j = 0; j < seq.length; j++) {
+					Element ant = outputDoc.createElement("ant");
+					ant.appendChild(outputDoc.createTextNode(seq[j].printSentencePrefix()));
+					sequent.appendChild(ant);
+				}
+				
+				Element sen = outputDoc.createElement("sen");
+				sen.appendChild(outputDoc.createTextNode(s.getSentence().printSentencePrefix()));
+				
+				step.appendChild(sequent);
+				step.appendChild(sen);
+				
+				for(int j = 0; j < s.getNumPremises(); j++) {
+					Element premise = outputDoc.createElement("premise");
+					premise.appendChild(outputDoc.createTextNode(s.getPremise(i)));
+					step.appendChild(premise);
+				}
+				
+				Element rule = outputDoc.createElement("rule");
+				rule.appendChild(outputDoc.createTextNode(s.getRule()));
+				
+				step.appendChild(rule);
+				
+				proof.appendChild(step);
+			}
+		}
 		
 		rootElement.appendChild(program);
 		rootElement.appendChild(version);
@@ -115,43 +173,27 @@ public class Fitch {
 		}
 	}
 	
-	public static String parseSentence(String sentence) {
-		String output = "";
+	public static Proof convertProof() {
+		Proof newProof = null;
+		Iterator<Integer> iter = proofs.keySet().iterator();
+		List<Step> newSteps = new ArrayList<Step>();
 		
-		//If the first character is (, we must parse each of the sentences within the sentence. Otherwise, it is just an atomic sentence
-		if(sentence.charAt(0) == ('(')) {
-			sentence = sentence.substring(1, sentence.length() - 1);
-			String operator = sentence.substring(0, sentence.indexOf(' '));
-			sentence = sentence.substring(sentence.indexOf(' ') + 1, sentence.length()) + " ";
-			
-			//Negation operator is handled differently than other operators
-			if(operator.equals("¬")) {
-				output += operator + parseSentence(sentence);
-			} else {
-				List<String> sentenceParts = new ArrayList<String>();
-				
-				int lastSpace = -1;
-				for(int i = 0; i < sentence.length(); i++) {
-					if(sentence.charAt(i) == ' ') {
-						sentenceParts.add(sentence.substring(lastSpace + 1, i));
-						lastSpace = i;
-					} else if(sentence.charAt(i) == '(') {
-						String subSentence = sentence.substring(i, i + sentence.substring(i, sentence.length()).indexOf(')') + 1);
-						sentenceParts.add("(" + parseSentence(subSentence) + ")");
-						i = i + subSentence.indexOf(')') + 1;
-					}
-				}
-				
-				for(int i = 0; i < sentenceParts.size() - 1; i++) {
-					output += sentenceParts.get(i) + operator;
-				}
-				output += sentenceParts.get(sentenceParts.size() - 1);
+		while(iter.hasNext()) {
+			Proof p = proofs.get(iter.next());
+			for(int i = 0; i < p.getNumSteps(); i++) {
+				steps.add(p.getStep(i));
 			}
-		} else {
-			output += sentence;
+		}
+		Collections.sort(steps, new StepComparer());
+		
+		for(int i = 0; i < steps.size(); i++) {
+			Step step = steps.get(i);
+			SequentStep newStep = new SequentStep(step, steps);
+			newSteps.add(newStep);
 		}
 		
-		return output;
+		newProof = new Proof(1, newSteps, "Sequent");
+		
+		return newProof;
 	}
-	
 }
