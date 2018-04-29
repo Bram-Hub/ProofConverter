@@ -188,7 +188,7 @@ public class Fitch {
 		
 		for(int i = 0; i < steps.size(); i++) {
 			Step step = steps.get(i);
-			SequentStep newStep = new SequentStep(step, steps);
+			SequentStep newStep = new SequentStep(step, newSteps, proofs);
 			newSteps.add(newStep);
 		}
 		

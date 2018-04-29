@@ -110,4 +110,37 @@ public class Sentence {
 	public String getType() {
 		return type;
 	}
+	
+	public Sentence getPrecedent() {
+		if(this.type.equals("Conditional")) {
+			return sentences.get(0);
+		} else {
+			return null;
+		}
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == null) {
+			return false;
+		}
+		if(!(obj instanceof Sentence)) {
+			return false;
+		}
+		Sentence s = (Sentence) obj;
+		if(this.printSentence().equals(s.printSentence())) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	@Override
+	public int hashCode() {
+	    int hash = 3;
+	    hash = 53 * hash + (this.operator != null ? this.operator.hashCode() : 0);
+	    hash = 53 * hash + (this.sentences != null ? this.sentences.hashCode() : 0);
+	    hash = 53 * hash + (this.singleSentence != null ? this.singleSentence.hashCode() : 0);
+	    return hash;
+	}
 }
