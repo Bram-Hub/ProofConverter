@@ -7,18 +7,18 @@
 	<proof id="1">
 		
 		<assumption linenum="1">
-			<sen>(-> P Q)</sen>
+			<sen>(→ P Q)</sen>
 		</assumption>
 		<assumption linenum="2">
-			<sen>(&#172; Q)</sen>
+			<sen>(¬ Q)</sen>
 		</assumption>
 		
 		<goal>
-			<sen>(&#172; R)</sen>
+			<sen>(¬ R)</sen>
 		</goal>
 		
 		<step linenum="6">
-			<sen>(&#172; P)</sen>
+			<sen>(¬ P)</sen>
 			
 			<premise>2</premise>
 			
@@ -32,7 +32,7 @@
 		</assumption>
 		
 		<goal>
-			<sen>&#8869;</sen>
+			<sen>⊥</sen>
 		</goal>
 		
 		<step linenum="4">

@@ -1,0 +1,25 @@
+<?xml version = "1.0"?>
+<bram>
+	<Program>Fitch</Program>
+	<Version>1.0</Version>
+	<metadata></metadata>
+
+	<proof id="1">
+		
+		<assumption linenum="1">
+			<sen>P</sen>
+		</assumption>
+		
+		<goal>
+			<sen>(∨ P Q)</sen>
+		</goal>
+		
+		<step linenum="2">
+			<sen>(∨ P Q)</sen>
+			
+			<premise>1</premise>
+			
+			<rule>DISJUNCTION_INTRODUCTION</rule>
+		</step>
+	</proof>
+</bram>

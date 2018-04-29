@@ -1,0 +1,74 @@
+<?xml version = "1.0"?>
+<bram>
+	<Program>Fitch</Program>
+	<Version>1.0</Version>
+	<metadata></metadata>
+
+	<proof id="1">
+		
+		<assumption linenum="1">
+			<sen>(→ P R)</sen>
+		</assumption>
+		
+		<assumption linenum="2">
+			<sen>(→ Q R)</sen>
+		</assumption>
+		
+		<assumption linenum="3">
+			<sen>(∨ P Q)</sen>
+		</assumption>
+		
+		<goal>
+			<sen>(∨ P Q)</sen>
+		</goal>
+		
+		<step linenum="8">
+			<sen>R</sen>
+			
+			<premise>2</premise>
+			<premise>3</premise>
+			
+			<rule>DISJUNCTION_ELIMINATION</rule>
+		</step>
+	</proof>
+	
+	<proof id="2">
+		
+		<assumption linenum="4">
+			<sen>P</sen>
+		</assumption>
+		
+		<goal>
+			<sen>R</sen>
+		</goal>
+		
+		<step linenum="5">
+			<sen>R</sen>
+			
+			<premise>1</premise>
+			<premise>4</premise>
+			
+			<rule>CONDITIONAL_ELIMINATION</rule>
+		</step>
+	</proof>
+	
+	<proof id="3">
+		
+		<assumption linenum="6">
+			<sen>Q</sen>
+		</assumption>
+		
+		<goal>
+			<sen>R</sen>
+		</goal>
+		
+		<step linenum="7">
+			<sen>R</sen>
+			
+			<premise>2</premise>
+			<premise>6</premise>
+			
+			<rule>CONDITIONAL_ELIMINATION</rule>
+		</step>
+	</proof>
+</bram>
