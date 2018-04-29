@@ -23,7 +23,7 @@ public class Sentence {
 			this.operator = s.substring(0, s.indexOf(' '));
 			s = s.substring(s.indexOf(' ') + 1, s.length());
 			
-			if(this.operator.equals("Â¬")) {
+			if(this.operator.equals("¬")) {
 				sentences = null;
 				singleSentence = new Sentence(s);
 			} else {
