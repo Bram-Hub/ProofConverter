@@ -23,7 +23,7 @@ public class Sentence {
 			this.operator = s.substring(0, s.indexOf(' '));
 			s = s.substring(s.indexOf(' ') + 1, s.length());
 			
-			if(this.operator.equals("¬")) {
+			if(this.operator.equals("Â¬")) {
 				sentences = null;
 				singleSentence = new Sentence(s);
 			} else {
@@ -66,9 +66,9 @@ public class Sentence {
 	}
 	
 	public String printSentence() {
-		if(type == "Atomic") {
+		if(type.equals("Atomic")) {
 			return singleSentence.printSentence();
-		} else if(type == "Negation") {
+		} else if(type.equals("Negation")) {
 			if(singleSentence.getType().equals("Atomic") || singleSentence.getType().equals("Negation")) {
 				return operator + singleSentence.printSentence();
 			} else {
@@ -93,9 +93,9 @@ public class Sentence {
 	}
 	
 	public String printSentencePrefix() {
-		if(type == "Atomic") {
+		if(type.equals("Atomic")) {
 			return singleSentence.printSentence();
-		} else if(type == "Negation") {
+		} else if(type.equals("Negation")) {
 			return "(" + operator + singleSentence.printSentencePrefix() + ")";
 		} else {
 			String output = "(" + operator;
