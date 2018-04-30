@@ -4,6 +4,11 @@
     <Version>1.0</Version>
     <metadata> </metadata>
     <proof id="1">
+        <goal>
+            <sen>
+			(→ (→ P Q) (→ P R))
+		</sen>
+        </goal>
         <assumption linenum="1">
             <sequent>
                 <ant>(→ P (→ Q R))</ant>
@@ -59,7 +64,7 @@
                 <ant>(→ P (→ Q R))</ant>
             </sequent>
             <sen>(→ P R)</sen>
-            <premise>3</premise>
+            <premise>6</premise>
             <rule>CONDITIONAL_INTRODUCTION</rule>
         </step>
         <step linenum="8">
@@ -67,7 +72,7 @@
                 <ant>(→ P (→ Q R))</ant>
             </sequent>
             <sen>(→ (→ P Q) (→ P R))</sen>
-            <premise>2</premise>
+            <premise>7</premise>
             <rule>CONDITIONAL_INTRODUCTION</rule>
         </step>
     </proof>

@@ -25,6 +25,7 @@ public class Proof {
 	//Creating a Proof from an xml element, used for parsing purposes.
 	public Proof(Element proof, String t) {
 		this.type = t;
+		this.goal = new Sentence(proof.getElementsByTagName("goal").item(0).getTextContent());
 		this.steps = new ArrayList<Step>();
 		this.id = Integer.parseInt(proof.getAttribute("id"));
 		this.startLine = Integer.MAX_VALUE;
@@ -81,8 +82,9 @@ public class Proof {
 		}
 	}
 	
-	public Proof(int newID, List<Step> s, String t) {
+	public Proof(int newID, List<Step> s, String t, Sentence g) {
 		this.id = newID;
+		this.goal = g;
 		this.steps = s;
 		this.type = t;
 		this.startLine = Integer.MAX_VALUE;

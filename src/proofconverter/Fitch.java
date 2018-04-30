@@ -100,6 +100,12 @@ public class Fitch {
 		Element proof = outputDoc.createElement("proof");
 		proof.setAttribute("id", "1");
 		
+		Element goal = outputDoc.createElement("goal");
+		Element goalSen = outputDoc.createElement("sen");
+		goalSen.appendChild(outputDoc.createTextNode(newProof.getGoal().printSentencePrefix()));
+		goal.appendChild(goalSen);
+		proof.appendChild(goal);
+		
 		for(int i = 0; i < newProof.getNumSteps(); i++) {
 			Step s = newProof.getStep(i);
 			if(s.getRule().equals("ASSUMPTION")) {
@@ -207,7 +213,7 @@ public class Fitch {
 			newSteps.add(newStep);
 		}
 		
-		newProof = new Proof(1, newSteps, "Sequent");
+		newProof = new Proof(1, newSteps, "Sequent", proofs.get(1).getGoal());
 		
 		return newProof;
 	}
