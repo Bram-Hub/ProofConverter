@@ -28,10 +28,52 @@ public class SequentStep extends Step {
 			this.sequent = new ArrayList<Sentence>();
 			if(this.rule.equals("CONDITIONAL_INTRODUCTION")) {
 				int endLineNum = proofs.get(Integer.parseInt(this.premises[0])).getEndLine();
+				this.premises[0] = Integer.toString(endLineNum);
 				List<Sentence> premiseSequents = ((SequentStep)steps.get(endLineNum - 1)).getSequent();
 				for(int i = 0; i < premiseSequents.size(); i++) {
-					System.out.println("Precedent: " + this.sentence.getPrecedent().printSentence() + " Sequent: " + premiseSequents.get(i).printSentence());
 					if(this.sentence.getPrecedent() == null || !this.sentence.getPrecedent().equals(premiseSequents.get(i))) {
+						if(!this.sequent.contains(premiseSequents.get(i))) {
+							this.sequent.add(premiseSequents.get(i));
+						}
+					}
+				}
+			} else if(this.rule.equals("NEGATION_INTRODUCTION")) {
+				int endLineNum = proofs.get(Integer.parseInt(this.premises[0])).getEndLine();
+				this.premises[0] = Integer.toString(endLineNum);
+				List<Sentence> premiseSequents = ((SequentStep)steps.get(endLineNum - 1)).getSequent();
+				for(int i = 0; i < premiseSequents.size(); i++) {
+					if(!this.sentence.getSingleSentence().equals(premiseSequents.get(i))) {
+						if(!this.sequent.contains(premiseSequents.get(i))) {
+							this.sequent.add(premiseSequents.get(i));
+						}
+					}
+				}
+			} else if(this.rule.equals("DISJUNCTION_ELIMINATION")) {
+				int endLineNum1 = proofs.get(Integer.parseInt(this.premises[1])).getEndLine();
+				int endLineNum2 = proofs.get(Integer.parseInt(this.premises[2])).getEndLine();
+				this.premises[1] = Integer.toString(endLineNum1);
+				this.premises[2] = Integer.toString(endLineNum2);
+				List<Sentence> premiseSequents = new ArrayList<Sentence>();
+				premiseSequents.addAll(((SequentStep)steps.get(Integer.parseInt(this.premises[0]) - 1)).getSequent());
+				premiseSequents.addAll(((SequentStep)steps.get(endLineNum1 - 1)).getSequent());
+				premiseSequents.addAll(((SequentStep)steps.get(endLineNum2 - 1)).getSequent());
+				for(int i = 0; i < premiseSequents.size(); i++) {
+					if(!steps.get(Integer.parseInt(this.premises[0]) - 1).getSentence().checkSentences(premiseSequents.get(i))) {
+						if(!this.sequent.contains(premiseSequents.get(i))) {
+							this.sequent.add(premiseSequents.get(i));
+						}
+					}
+				}
+			} else if(this.rule.equals("BICONDITIONAL_INTRODUCTION")) {
+				int endLineNum1 = proofs.get(Integer.parseInt(this.premises[0])).getEndLine();
+				int endLineNum2 = proofs.get(Integer.parseInt(this.premises[1])).getEndLine();
+				this.premises[0] = Integer.toString(endLineNum1);
+				this.premises[1] = Integer.toString(endLineNum2);
+				List<Sentence> premiseSequents = new ArrayList<Sentence>();
+				premiseSequents.addAll(((SequentStep)steps.get(endLineNum1 - 1)).getSequent());
+				premiseSequents.addAll(((SequentStep)steps.get(endLineNum2 - 1)).getSequent());
+				for(int i = 0; i < premiseSequents.size(); i++) {
+					if(!(this.sentence.checkSentences(premiseSequents.get(i)))) {
 						if(!this.sequent.contains(premiseSequents.get(i))) {
 							this.sequent.add(premiseSequents.get(i));
 						}

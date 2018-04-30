@@ -7,47 +7,41 @@
 	<proof id="1">
 		
 		<assumption linenum="1">
-			<sen>(→ P R)</sen>
+			<sen>(→ P Q)</sen>
 		</assumption>
-		
 		<assumption linenum="2">
-			<sen>(→ Q R)</sen>
-		</assumption>
-		
-		<assumption linenum="3">
-			<sen>(∨ P Q)</sen>
+			<sen>(→ Q P)</sen>
 		</assumption>
 		
 		<goal>
-			<sen>(∨ P Q)</sen>
+			<sen>(↔ P Q)</sen>
 		</goal>
 		
-		<step linenum="8">
-			<sen>R</sen>
+		<step linenum="7">
+			<sen>(↔ P Q)</sen>
 			
-			<premise>3</premise>
 			<premise>2</premise>
 			<premise>3</premise>
 			
-			<rule>DISJUNCTION_ELIMINATION</rule>
+			<rule>BICONDITIONAL_INTRODUCTION</rule>
 		</step>
 	</proof>
 	
 	<proof id="2">
 		
-		<assumption linenum="4">
+		<assumption linenum="3">
 			<sen>P</sen>
 		</assumption>
 		
 		<goal>
-			<sen>R</sen>
+			<sen>Q</sen>
 		</goal>
 		
-		<step linenum="5">
-			<sen>R</sen>
+		<step linenum="4">
+			<sen>Q</sen>
 			
 			<premise>1</premise>
-			<premise>4</premise>
+			<premise>3</premise>
 			
 			<rule>CONDITIONAL_ELIMINATION</rule>
 		</step>
@@ -55,19 +49,19 @@
 	
 	<proof id="3">
 		
-		<assumption linenum="6">
+		<assumption linenum="5">
 			<sen>Q</sen>
 		</assumption>
 		
 		<goal>
-			<sen>R</sen>
+			<sen>P</sen>
 		</goal>
 		
-		<step linenum="7">
-			<sen>R</sen>
+		<step linenum="6">
+			<sen>P</sen>
 			
 			<premise>2</premise>
-			<premise>6</premise>
+			<premise>5</premise>
 			
 			<rule>CONDITIONAL_ELIMINATION</rule>
 		</step>

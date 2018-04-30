@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<bram>
+    <Program>Sequent</Program>
+    <Version>1.0</Version>
+    <metadata> </metadata>
+    <proof id="1">
+        <assumption linenum="1">
+            <sequent>
+                <ant>(→ P (→ Q R))</ant>
+            </sequent>
+            <sen>(→ P (→ Q R))</sen>
+        </assumption>
+        <assumption linenum="2">
+            <sequent>
+                <ant>(→ P Q)</ant>
+            </sequent>
+            <sen>(→ P Q)</sen>
+        </assumption>
+        <assumption linenum="3">
+            <sequent>
+                <ant>P</ant>
+            </sequent>
+            <sen>P</sen>
+        </assumption>
+        <step linenum="4">
+            <sequent>
+                <ant>(→ P Q)</ant>
+                <ant>P</ant>
+            </sequent>
+            <sen>Q</sen>
+            <premise>2</premise>
+            <premise>3</premise>
+            <rule>CONDITIONAL_ELIMINATION</rule>
+        </step>
+        <step linenum="5">
+            <sequent>
+                <ant>(→ P (→ Q R))</ant>
+                <ant>P</ant>
+            </sequent>
+            <sen>(→ Q R)</sen>
+            <premise>1</premise>
+            <premise>3</premise>
+            <rule>CONDITIONAL_ELIMINATION</rule>
+        </step>
+        <step linenum="6">
+            <sequent>
+                <ant>(→ P Q)</ant>
+                <ant>P</ant>
+                <ant>(→ P (→ Q R))</ant>
+            </sequent>
+            <sen>R</sen>
+            <premise>4</premise>
+            <premise>5</premise>
+            <rule>CONDITIONAL_ELIMINATION</rule>
+        </step>
+        <step linenum="7">
+            <sequent>
+                <ant>(→ P Q)</ant>
+                <ant>(→ P (→ Q R))</ant>
+            </sequent>
+            <sen>(→ P R)</sen>
+            <premise>3</premise>
+            <rule>CONDITIONAL_INTRODUCTION</rule>
+        </step>
+        <step linenum="8">
+            <sequent>
+                <ant>(→ P (→ Q R))</ant>
+            </sequent>
+            <sen>(→ (→ P Q) (→ P R))</sen>
+            <premise>2</premise>
+            <rule>CONDITIONAL_INTRODUCTION</rule>
+        </step>
+    </proof>
+</bram>

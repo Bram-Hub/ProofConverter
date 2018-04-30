@@ -59,7 +59,7 @@ public class Step {
 	
 	public String getPremise(int i) {
 		if(i < 0 || i >= premises.length) {
-			return "";
+			return " ";
 		} else {
 			return premises[i];
 		}

@@ -124,12 +124,20 @@ public class Sentence {
 		return type;
 	}
 	
+	public Sentence getSingleSentence() {
+		return singleSentence;
+	}
+	
 	public Sentence getPrecedent() {
 		if(this.type.equals("Conditional")) {
 			return sentences.get(0);
 		} else {
 			return null;
 		}
+	}
+	
+	public boolean checkSentences(Sentence s) {
+		return this.sentences.contains(s);
 	}
 	
 	@Override
