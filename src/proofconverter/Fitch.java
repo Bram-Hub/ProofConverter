@@ -174,8 +174,13 @@ public class Fitch {
 			s.setIndent(indent);
 			for(int j = 0; j < subProofRules.length; j++) {
 				if(s.getRule().equals(subProofRules[j])) {
-					for(int k = 0; k < s.getNumPremises(); k++) {
-						setIndents(proofs.get(Integer.valueOf(s.getPremise(k))), indent + 1);
+					if(s.getRule().equals("DISJUNCTION_ELIMINATION")) {
+						setIndents(proofs.get(Integer.valueOf(s.getPremise(1))), indent + 1);
+						setIndents(proofs.get(Integer.valueOf(s.getPremise(2))), indent + 1);
+					} else {
+						for(int k = 0; k < s.getNumPremises(); k++) {
+							setIndents(proofs.get(Integer.valueOf(s.getPremise(k))), indent + 1);
+						}
 					}
 				}
 			}
