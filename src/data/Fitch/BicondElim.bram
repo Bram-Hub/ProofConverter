@@ -1,0 +1,29 @@
+<?xml version = "1.0"?>
+<bram>
+	<Program>Fitch</Program>
+	<Version>1.0</Version>
+	<metadata></metadata>
+
+	<proof id="1">
+		
+		<assumption linenum="1">
+			<sen>(↔ P Q)</sen>
+		</assumption>
+		<assumption linenum="2">
+			<sen>Q</sen>
+		</assumption>
+		
+		<goal>
+			<sen>P</sen>
+		</goal>
+		
+		<step linenum="3">
+			<sen>P</sen>
+			
+			<premise>1</premise>
+			<premise>2</premise>
+			
+			<rule>BICONDITIONAL_ELIMINATION</rule>
+		</step>
+	</proof>
+</bram>

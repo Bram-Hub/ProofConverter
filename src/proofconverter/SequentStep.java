@@ -64,6 +64,21 @@ public class SequentStep extends Step {
 						}
 					}
 				}
+			} else if(this.rule.equals("BICONDITIONAL_INTRODUCTION")) {
+				int endLineNum1 = proofs.get(Integer.parseInt(this.premises[0])).getEndLine();
+				int endLineNum2 = proofs.get(Integer.parseInt(this.premises[1])).getEndLine();
+				this.premises[0] = Integer.toString(endLineNum1);
+				this.premises[1] = Integer.toString(endLineNum2);
+				List<Sentence> premiseSequents = new ArrayList<Sentence>();
+				premiseSequents.addAll(((SequentStep)steps.get(endLineNum1 - 1)).getSequent());
+				premiseSequents.addAll(((SequentStep)steps.get(endLineNum2 - 1)).getSequent());
+				for(int i = 0; i < premiseSequents.size(); i++) {
+					if(!(this.sentence.checkSentences(premiseSequents.get(i)))) {
+						if(!this.sequent.contains(premiseSequents.get(i))) {
+							this.sequent.add(premiseSequents.get(i));
+						}
+					}
+				}
 			} else {
 				for(int i = 0; i < this.premises.length; i++) {
 					List<Sentence> premiseSequents = ((SequentStep) steps.get(Integer.parseInt(this.premises[i]) - 1)).getSequent();
