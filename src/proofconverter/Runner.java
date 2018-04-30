@@ -101,7 +101,7 @@ public class Runner {
 						if(proofType.equals("Fitch")) {
 							outputDoc = Fitch.convert(proofList, outputDoc);
 						} else if (proofType.equals("Sequent")) {
-							//outputDoc = Sequent.convert(proofList);
+							outputDoc = Sequent.convert(proofList, outputDoc);
 						} else {
 							System.out.println("ERROR: " + proofType + " is not a verified Program tag value for this program. Exiting.");
 							return;
