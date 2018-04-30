@@ -13,7 +13,7 @@ import java.util.Iterator;
 
 public class Fitch {
 	
-	private static String[] subProofRules = {"NEGATION_INTRODUCTION", "OR_ELIMINATION", "CONDITIONAL_INTRODUCTION", "BICONDITIONAL_INTRODUCTION"};
+	private static String[] subProofRules = {"NEGATION_INTRODUCTION", "DISJUNCTION_ELIMINATION", "CONDITIONAL_INTRODUCTION", "BICONDITIONAL_INTRODUCTION"};
 	private static Map<Integer, Proof> proofs;
 	private static List<Step> steps = new ArrayList<Step>();
 	

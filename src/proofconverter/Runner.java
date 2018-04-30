@@ -22,9 +22,20 @@ public class Runner {
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			File input = null;
 			
-			if(args.length == 0) {
-				System.err.println("ERROR: No arguments given. Use the help argument if you are unsure how to use this program.");
-				return;
+			if(args.length == 1) {
+				String command = args[0];
+				if(command.equals("help")) {
+					System.out.println("Below are the commands that you can currently use with this software, and how to use them.\n");
+					System.out.println("help");
+					System.out.println("Returns a list of commands that can be used with this software.\n");
+					System.out.println("parse arg1");
+					System.out.println("Parses a .bram file into a readable text file.");
+					System.out.println("arg1 should be the path to the file you want to parse.\n");
+					System.out.println("convert arg1 arg2");
+					System.out.println("Takes in a .bram file from one logic system, and converts it to another system.");
+					System.out.println("arg1 should be the path to the file you want to convert.");
+					System.out.println("arg2 should be the path to where you want the output file to be located.");
+				}
 			} else if(args.length == 2) {
 				String command = args[0];
 				String fileName = args[1];
@@ -32,8 +43,7 @@ public class Runner {
 					System.err.println("ERROR: Argument 2 is not a valid file. Please input a .bram file to use this program.");
 					return;
 				} else {
-					String[] fileNameParts = fileName.split("\\.");
-					if(!fileNameParts[1].equals("bram")) {
+					if(!fileName.substring(fileName.length() - 4, fileName.length()).equals("bram")) {
 						System.err.println("ERROR: Argument 2 is not a .bram file. Please input a .bram file ot use this program.");
 						return;
 					}
@@ -121,12 +131,15 @@ public class Runner {
 					
 					transformer.transform(source, result);
 				} else if(command.equals("parse")) {
-					System.err.println("ERROR: Too many arguments given for parse convert. Use the help argument if you are unsure how to use this program.");
+					System.err.println("ERROR: Too many arguments given for command parse. Use the help argument if you are unsure how to use this program.");
 					return;
 				} else {
 					System.err.println("ERROR: Unknown command " + command + ". Use the help argument if you are unsure how to use this program.");
 					return;
 				}
+			} else {
+				System.err.println("ERROR: Invalid number of arguments given. Use the help command if you are unsure how to use this program.");
+				return;
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
