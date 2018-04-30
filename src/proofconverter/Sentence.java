@@ -109,7 +109,7 @@ public class Sentence {
 		if(type == "Atomic") {
 			return singleSentence.printSentence();
 		} else if(type == "Negation") {
-			return "(" + operator + singleSentence.printSentencePrefix() + ")";
+			return "(" + operator + " " + singleSentence.printSentencePrefix() + ")";
 		} else {
 			String output = "(" + operator;
 			for(int i = 0; i < sentences.size(); i++) {
@@ -122,6 +122,10 @@ public class Sentence {
 	
 	public String getType() {
 		return type;
+	}
+	
+	public Sentence getSingleSentence() {
+		return singleSentence;
 	}
 	
 	public Sentence getPrecedent() {

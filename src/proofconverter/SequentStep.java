@@ -37,6 +37,17 @@ public class SequentStep extends Step {
 						}
 					}
 				}
+			} else if(this.rule.equals("NEGATION_INTRODUCTION")) {
+				int endLineNum = proofs.get(Integer.parseInt(this.premises[0])).getEndLine();
+				this.premises[0] = Integer.toString(endLineNum);
+				List<Sentence> premiseSequents = ((SequentStep)steps.get(endLineNum - 1)).getSequent();
+				for(int i = 0; i < premiseSequents.size(); i++) {
+					if(!this.sentence.getSingleSentence().equals(premiseSequents.get(i))) {
+						if(!this.sequent.contains(premiseSequents.get(i))) {
+							this.sequent.add(premiseSequents.get(i));
+						}
+					}
+				}
 			} else if(this.rule.equals("DISJUNCTION_ELIMINATION")) {
 				int endLineNum1 = proofs.get(Integer.parseInt(this.premises[1])).getEndLine();
 				int endLineNum2 = proofs.get(Integer.parseInt(this.premises[2])).getEndLine();

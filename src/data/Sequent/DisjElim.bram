@@ -28,7 +28,13 @@
             </sequent>
             <sen>P</sen>
         </assumption>
-        <step linenum="5">
+        <assumption linenum="5">
+            <sequent>
+                <ant>Q</ant>
+            </sequent>
+            <sen>Q</sen>
+        </assumption>
+        <step linenum="6">
             <sequent>
                 <ant>(→ P R)</ant>
                 <ant>P</ant>
@@ -38,16 +44,11 @@
             <premise>4</premise>
             <rule>CONDITIONAL_ELIMINATION</rule>
         </step>
-        <assumption linenum="6">
-            <sequent>
-                <ant>Q</ant>
-            </sequent>
-            <sen>Q</sen>
-        </assumption>
         <step linenum="7">
             <sequent>
                 <ant>(→ Q R)</ant>
-                <ant>Q</ant>
+                <ant>(→ P R)</ant>
+                <ant>P</ant>
             </sequent>
             <sen>R</sen>
             <premise>2</premise>
@@ -57,8 +58,8 @@
         <step linenum="8">
             <sequent>
                 <ant>(∨ P Q)</ant>
-                <ant>(→ P R)</ant>
                 <ant>(→ Q R)</ant>
+                <ant>(→ P R)</ant>
             </sequent>
             <sen>R</sen>
             <premise>3</premise>

@@ -36,7 +36,7 @@
 			<premise>5</premise>
 			<premise>9</premise>
 			
-			<rule>AND_INTRODUCTION</rule>
+			<rule>CONJUNCTION_INTRODUCTION</rule>
 		</step>
 		
 	</proof>
@@ -56,7 +56,7 @@
 			
 			<premise>2</premise>
 			
-			<rule>OR_INTRODUCTION</rule>
+			<rule>DISJUNCTION_INTRODUCTION</rule>
 		</step>
 		
 		<step linenum="4">
@@ -85,7 +85,7 @@
 			
 			<premise>6</premise>
 			
-			<rule>OR_INTRODUCTION</rule>
+			<rule>DISJUNCTION_INTRODUCTION</rule>
 		</step>
 		
 		<step linenum="8">

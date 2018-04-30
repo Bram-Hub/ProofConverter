@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<bram>
+    <Program>Sequent</Program>
+    <Version>1.0</Version>
+    <metadata> </metadata>
+    <proof id="1">
+        <assumption linenum="1">
+            <sequent>
+                <ant>P</ant>
+            </sequent>
+            <sen>P</sen>
+        </assumption>
+        <assumption linenum="2">
+            <sequent>
+                <ant>(→ P Q)</ant>
+            </sequent>
+            <sen>(→ P Q)</sen>
+        </assumption>
+        <step linenum="3">
+            <sequent>
+                <ant>P</ant>
+                <ant>(→ P Q)</ant>
+            </sequent>
+            <sen>Q</sen>
+            <premise>1</premise>
+            <premise>2</premise>
+            <rule>CONDITIONAL_ELIMINATION</rule>
+        </step>
+        <step linenum="4">
+            <sequent>
+                <ant>P</ant>
+                <ant>(→ P Q)</ant>
+            </sequent>
+            <sen>(∧ P Q)</sen>
+            <premise>1</premise>
+            <premise>3</premise>
+            <rule>CONJUNCTION_INTRODUCTION</rule>
+        </step>
+    </proof>
+</bram>

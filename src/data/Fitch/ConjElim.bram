@@ -10,18 +10,26 @@
 			<sen>(∧ P Q)</sen>
 		</assumption>
 		<assumption linenum="2">
-			<sen>P</sen>
+			<sen>(→ P R)</sen>
 		</assumption>
 		
 		<goal>
-			<sen>Q</sen>
+			<sen>R</sen>
 		</goal>
 		
 		<step linenum="3">
-			<sen>Q</sen>
+			<sen>P</sen>
 			
 			<premise>1</premise>
+			
+			<rule>CONJUNCTION_ELIMINATION</rule>
+		</step>
+		
+		<step linenum="4">
+			<sen>R</sen>
+			
 			<premise>2</premise>
+			<premise>3</premise>
 			
 			<rule>CONDITIONAL_ELIMINATION</rule>
 		</step>
