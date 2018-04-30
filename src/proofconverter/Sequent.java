@@ -54,8 +54,12 @@ public class Sequent {
 			}
 			String sen = s.getSentence().printSentence();
 			String rule = s.getRule();
-			//output += s.getSentence().printSentence() + "\t\t" + s.getRule() + "\r\n";
-			output += String.format("%-6s%-40s%-30s\r\n", lineNum, sequentStr + sen, rule);
+
+			String premises = "";
+			for(int k = 0; k < s.getNumPremises(); k++) {
+				premises += " " + s.getPremise(k);
+			}
+			output += String.format("%-6s%-40s%-30s\r\n", lineNum, sequentStr + sen, rule + premises);
 		}
 		
 		System.out.println("Proof ID = " + p.getID());
@@ -199,7 +203,7 @@ public class Sequent {
 			if((s.getRule()).equals("ASSUMPTION")) {
 				System.out.println("Here");
 				Collections.sort(subproof, new StepComparer());
-				Proof p = new Proof(proofId, subproof, "Sequent");
+				Proof p = new Proof(proofId, subproof, "Sequent", subproof.get(subproof.size()-1).getSentence());
 				proofs.put(proofId, p);
 				if(proofId == 1) {
 					continue;
@@ -235,10 +239,8 @@ public class Sequent {
 	}
 	
 	public static void convertProof() {
-		//Map<Integer, Proof> fProofs = new HashMap<Integer, Proof>();
-//		
+
 		List<Step> seqSteps = new ArrayList<Step>(seqProof.getSteps());
-		Iterator<Step> stepItr = seqSteps.iterator();
 		Collections.sort(seqSteps, new StepComparer());
 		constructSubProofs(1, seqSteps, seqSteps.size()-1, "none");
 
