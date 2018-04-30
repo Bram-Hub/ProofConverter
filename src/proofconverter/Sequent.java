@@ -119,7 +119,7 @@ public class Sequent {
 			}
 		}
 		
-		Proof newProof = convertProof();
+		List<Proof> newProofs = convertProof();
 		
 		Element rootElement = outputDoc.createElement("bram");
 		
@@ -135,98 +135,99 @@ public class Sequent {
 		Element proof = outputDoc.createElement("proof");
 		proof.setAttribute("id", "1");
 		
-		for(int i = 0; i < newProof.getNumSteps(); i++) {
-			Step s = newProof.getStep(i);
-			if(s.getRule().equals("ASSUMPTION")) {
-				Element assumption = outputDoc.createElement("assumption");
-				assumption.setAttribute("linenum", Integer.toString(s.getLineNum()));
-				
-				Element sequent = outputDoc.createElement("sequent");
-				List<Sentence> seq = ((SequentStep) s).getSequent();
-				
-				for(int j = 0; j < seq.size(); j++) {
-					Element ant = outputDoc.createElement("ant");
-					ant.appendChild(outputDoc.createTextNode(seq.get(j).printSentencePrefix()));
-					sequent.appendChild(ant);
-				}
-				
-				Element sen = outputDoc.createElement("sen");
-				sen.appendChild(outputDoc.createTextNode(s.getSentence().printSentencePrefix()));
-				
-				assumption.appendChild(sequent);
-				assumption.appendChild(sen);
-				
-				proof.appendChild(assumption);
-			} else {
-				Element step = outputDoc.createElement("step");
-				step.setAttribute("linenum", Integer.toString(s.getLineNum()));
-				
-				Element sequent = outputDoc.createElement("sequent");
-				List<Sentence> seq = ((SequentStep) s).getSequent();
-				
-				for(int j = 0; j < seq.size(); j++) {
-					Element ant = outputDoc.createElement("ant");
-					ant.appendChild(outputDoc.createTextNode(seq.get(j).printSentencePrefix()));
-					sequent.appendChild(ant);
-				}
-				
-				Element sen = outputDoc.createElement("sen");
-				sen.appendChild(outputDoc.createTextNode(s.getSentence().printSentencePrefix()));
-				
-				step.appendChild(sequent);
-				step.appendChild(sen);
-				
-				for(int j = 0; j < s.getNumPremises(); j++) {
-					Element premise = outputDoc.createElement("premise");
-					premise.appendChild(outputDoc.createTextNode(s.getPremise(i)));
-					step.appendChild(premise);
-				}
-				
-				Element rule = outputDoc.createElement("rule");
-				rule.appendChild(outputDoc.createTextNode(s.getRule()));
-				
-				step.appendChild(rule);
-				
-				proof.appendChild(step);
-			}
-		}
-		
-		rootElement.appendChild(program);
-		rootElement.appendChild(version);
-		rootElement.appendChild(metadata);
-		rootElement.appendChild(proof);
-		
-		outputDoc.appendChild(rootElement);
+//		for(int i = 0; i < newProof.getNumSteps(); i++) {
+//			Step s = newProof.getStep(i);
+//			if(s.getRule().equals("ASSUMPTION")) {
+//				Element assumption = outputDoc.createElement("assumption");
+//				assumption.setAttribute("linenum", Integer.toString(s.getLineNum()));
+//				
+//				Element sequent = outputDoc.createElement("sequent");
+//				List<Sentence> seq = ((SequentStep) s).getSequent();
+//				
+//				for(int j = 0; j < seq.size(); j++) {
+//					Element ant = outputDoc.createElement("ant");
+//					ant.appendChild(outputDoc.createTextNode(seq.get(j).printSentencePrefix()));
+//					sequent.appendChild(ant);
+//				}
+//				
+//				Element sen = outputDoc.createElement("sen");
+//				sen.appendChild(outputDoc.createTextNode(s.getSentence().printSentencePrefix()));
+//				
+//				assumption.appendChild(sequent);
+//				assumption.appendChild(sen);
+//				
+//				proof.appendChild(assumption);
+//			} else {
+//				Element step = outputDoc.createElement("step");
+//				step.setAttribute("linenum", Integer.toString(s.getLineNum()));
+//				
+//				Element sequent = outputDoc.createElement("sequent");
+//				List<Sentence> seq = ((SequentStep) s).getSequent();
+//				
+//				for(int j = 0; j < seq.size(); j++) {
+//					Element ant = outputDoc.createElement("ant");
+//					ant.appendChild(outputDoc.createTextNode(seq.get(j).printSentencePrefix()));
+//					sequent.appendChild(ant);
+//				}
+//				
+//				Element sen = outputDoc.createElement("sen");
+//				sen.appendChild(outputDoc.createTextNode(s.getSentence().printSentencePrefix()));
+//				
+//				step.appendChild(sequent);
+//				step.appendChild(sen);
+//				
+//				for(int j = 0; j < s.getNumPremises(); j++) {
+//					Element premise = outputDoc.createElement("premise");
+//					premise.appendChild(outputDoc.createTextNode(s.getPremise(i)));
+//					step.appendChild(premise);
+//				}
+//				
+//				Element rule = outputDoc.createElement("rule");
+//				rule.appendChild(outputDoc.createTextNode(s.getRule()));
+//				
+//				step.appendChild(rule);
+//				
+//				proof.appendChild(step);
+//			}
+//		}
+//		
+//		rootElement.appendChild(program);
+//		rootElement.appendChild(version);
+//		rootElement.appendChild(metadata);
+//		rootElement.appendChild(proof);
+//		
+//		outputDoc.appendChild(rootElement);
 		
 		return outputDoc;
 	}
 	
 	public static int constructSubProofs(List<List<Step>> proofs, int proofId, List<Step> seqSteps, int step, String rule) {
 		List<Step> subproof = new ArrayList<Step>();
-		for(int i = step; i >= 0; i++) {
+		for(int i = step; i >= 0; i--) {
 			Step s = seqSteps.get(step);
 			subproof.add(s);
 			
 			if((s.getRule()).equals("ASSUMPTION")) {
 				
 				proofs.set(proofId, subproof);
-				return step - 1;
+				return step;
 			}
 			
 			//if step(s) is a subProof rule
 			for(int j = 0; j < subProofRules.length; j++) {
 				if((s.getRule()).equals(subProofRules[j])) {
-					if((s.getRule()).equals("OR_ELIMINATION")) {
-						i = constructSubProofs(proofs, proofId + 1, seqSteps, i-1, "OR_ELIMINATION");
-						break;
-					}
-					else if((s.getRule()).equals("BICONDITIONAL_INTRODUCTION")) {
-						i = constructSubProofs(proofs, proofId + 1, seqSteps, i-1, "BICONDITIONAL_INTRODUCTION");
-						break;
-					}
-					else {
+//					if((s.getRule()).equals("OR_ELIMINATION")) {
+//						i = constructSubProofs(proofs, proofId + 1, seqSteps, i-1, "OR_ELIMINATION");
+//						break;
+//					}
+//					else if((s.getRule()).equals("BICONDITIONAL_INTRODUCTION")) {
+//						i = constructSubProofs(proofs, proofId + 1, seqSteps, i-1, "BICONDITIONAL_INTRODUCTION");
+//						break;
+//					}
+//					else {
 						i = constructSubProofs(proofs, proofId + 1, seqSteps, i-1, "other");
-					}
+						break;
+					//}
 				}
 			}
 			
@@ -237,29 +238,26 @@ public class Sequent {
 		return 0;
 	}
 	
-	public static Proof convertProof() {
+	public static List<Proof> convertProof() {
 		Proof newProof = null;
-//		Iterator<Integer> iter = proofs.keySet().iterator();
-//		List<Step> newSteps = new ArrayList<Step>();
-//		
-//		while(iter.hasNext()) {
-//			Proof p = proofs.get(iter.next());
-//			List<Step> seqSteps = new ArrayList<Step>(p.getSteps());
-//			Collections.sort(seqSteps, new StepComparer());
-//			List<List<Step>> proofs = new ArrayList<List<Step>>();
-//			constructSubProofs(proofs, 0, seqSteps, seqSteps.size()-1, "none");
-//
-//		}
-//		Collections.sort(steps, new StepComparer());
-//		
-//		for(int i = 0; i < steps.size(); i++) {
-//			Step step = steps.get(i);
-//			SequentStep newStep = new SequentStep(step, newSteps, proofs);
-//			newSteps.add(newStep);
-//		}
-//		
-//		newProof = new Proof(1, newSteps, "Sequent");
-//		
-		return newProof;
+		Iterator<Integer> iter = proofs.keySet().iterator();
+		List<Step> newSteps = new ArrayList<Step>();
+		List<List<Step>> proofSteps = new ArrayList<List<Step>>();
+		
+		while(iter.hasNext()) {
+			Proof p = proofs.get(iter.next());
+			List<Step> seqSteps = new ArrayList<Step>(p.getSteps());
+			Collections.sort(seqSteps, new StepComparer());
+			constructSubProofs(proofSteps, 0, seqSteps, seqSteps.size()-1, "none");
+
+		}
+		
+		List<Proof> proofs = new ArrayList<Proof>();
+		for(int i = 0; i < proofSteps.size(); i++) {
+			Proof newP = new Proof(i+1, proofSteps.get(0), "Fitch");
+			proofs.add(newP);
+		}
+		
+		return proofs;
 	}
 }
