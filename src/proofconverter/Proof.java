@@ -109,6 +109,10 @@ public class Proof {
 		return this.steps.get(i);
 	}
 	
+	public List<Step> getSteps() {
+		return this.steps;
+	}
+	
 	public Step getStepByLineNumber(int l) {
 		for(int i = 0; i < this.steps.size(); i++) {
 			if(this.steps.get(i).getLineNum() == l) {

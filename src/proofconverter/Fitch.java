@@ -13,7 +13,7 @@ import java.util.Iterator;
 
 public class Fitch {
 	
-	private static String[] subProofRules = {"NEGATION_INTRODUCTION", "DISJUNCTION_ELIMINATION", "CONDITIONAL_INTRODUCTION", "BICONDITIONAL_INTRODUCTION"};
+	private static String[] subProofRules = {"NEGATION_INTRODUCTION", "OR_ELIMINATION", "CONDITIONAL_INTRODUCTION", "BICONDITIONAL_INTRODUCTION"};
 	private static Map<Integer, Proof> proofs;
 	private static List<Step> steps = new ArrayList<Step>();
 	
@@ -54,9 +54,7 @@ public class Fitch {
 					premises += " " + steps.get(i).getPremise(k);
 				}
 			} else {
-				for(int k = 0; k < steps.get(i).getNumPremises(); k++) {
-					premises += " " + proofs.get(Integer.valueOf(steps.get(i).getPremise(k))).getStartLine() + "-" + proofs.get(Integer.valueOf(steps.get(i).getPremise(k))).getEndLine();
-				}
+				premises += " " + proofs.get(Integer.valueOf(steps.get(i).getPremise(0))).getStartLine() + "-" + proofs.get(Integer.valueOf(steps.get(i).getPremise(0))).getEndLine();
 			}
 			output += String.format("%-6s%-32s%-30s\r\n", lineNum, indent + sentence, rule + premises);
 		}
@@ -168,9 +166,7 @@ public class Fitch {
 			s.setIndent(indent);
 			for(int j = 0; j < subProofRules.length; j++) {
 				if(s.getRule().equals(subProofRules[j])) {
-					for(int k = 0; k < s.getNumPremises(); k++) {
-						setIndents(proofs.get(Integer.valueOf(s.getPremise(k))), indent + 1);
-					}
+					setIndents(proofs.get(Integer.valueOf(s.getPremise(0))), indent + 1);
 				}
 			}
 			steps.add(s);
