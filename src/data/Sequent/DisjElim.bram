@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<bram>
+    <Program>Sequent</Program>
+    <Version>1.0</Version>
+    <metadata> </metadata>
+    <proof id="1">
+        <assumption linenum="1">
+            <sequent>
+                <ant>(→ P R)</ant>
+            </sequent>
+            <sen>(→ P R)</sen>
+        </assumption>
+        <assumption linenum="2">
+            <sequent>
+                <ant>(→ Q R)</ant>
+            </sequent>
+            <sen>(→ Q R)</sen>
+        </assumption>
+        <assumption linenum="3">
+            <sequent>
+                <ant>(∨ P Q)</ant>
+            </sequent>
+            <sen>(∨ P Q)</sen>
+        </assumption>
+        <assumption linenum="4">
+            <sequent>
+                <ant>P</ant>
+            </sequent>
+            <sen>P</sen>
+        </assumption>
+        <step linenum="5">
+            <sequent>
+                <ant>(→ P R)</ant>
+                <ant>P</ant>
+            </sequent>
+            <sen>R</sen>
+            <premise>1</premise>
+            <premise>4</premise>
+            <rule>CONDITIONAL_ELIMINATION</rule>
+        </step>
+        <assumption linenum="6">
+            <sequent>
+                <ant>Q</ant>
+            </sequent>
+            <sen>Q</sen>
+        </assumption>
+        <step linenum="7">
+            <sequent>
+                <ant>(→ Q R)</ant>
+                <ant>Q</ant>
+            </sequent>
+            <sen>R</sen>
+            <premise>2</premise>
+            <premise>6</premise>
+            <rule>CONDITIONAL_ELIMINATION</rule>
+        </step>
+        <step linenum="8">
+            <sequent>
+                <ant>(∨ P Q)</ant>
+                <ant>(→ P R)</ant>
+                <ant>(→ Q R)</ant>
+            </sequent>
+            <sen>R</sen>
+            <premise>3</premise>
+            <premise>5</premise>
+            <premise>7</premise>
+            <rule>DISJUNCTION_ELIMINATION</rule>
+        </step>
+    </proof>
+</bram>

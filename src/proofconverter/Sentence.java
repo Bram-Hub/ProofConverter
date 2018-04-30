@@ -132,6 +132,10 @@ public class Sentence {
 		}
 	}
 	
+	public boolean checkSentences(Sentence s) {
+		return this.sentences.contains(s);
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if(obj == null) {

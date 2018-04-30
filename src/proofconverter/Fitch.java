@@ -54,8 +54,14 @@ public class Fitch {
 					premises += " " + steps.get(i).getPremise(k);
 				}
 			} else {
-				for(int k = 0; k < steps.get(i).getNumPremises(); k++) {
-					premises += " " + proofs.get(Integer.valueOf(steps.get(i).getPremise(k))).getStartLine() + "-" + proofs.get(Integer.valueOf(steps.get(i).getPremise(k))).getEndLine();
+				if(steps.get(i).getRule().equals("DISJUNCTION_ELIMINATION")) {
+					premises += " " + steps.get(i).getPremise(0);
+					premises += " " + proofs.get(Integer.valueOf(steps.get(i).getPremise(1))).getStartLine() + "-" + proofs.get(Integer.valueOf(steps.get(i).getPremise(1))).getEndLine();
+					premises += " " + proofs.get(Integer.valueOf(steps.get(i).getPremise(2))).getStartLine() + "-" + proofs.get(Integer.valueOf(steps.get(i).getPremise(2))).getEndLine();
+				} else {
+					for(int k = 0; k < steps.get(i).getNumPremises(); k++) {
+						premises += " " + proofs.get(Integer.valueOf(steps.get(i).getPremise(k))).getStartLine() + "-" + proofs.get(Integer.valueOf(steps.get(i).getPremise(k))).getEndLine();
+					}
 				}
 			}
 			output += String.format("%-6s%-32s%-30s\r\n", lineNum, indent + sentence, rule + premises);
@@ -137,7 +143,7 @@ public class Fitch {
 				
 				for(int j = 0; j < s.getNumPremises(); j++) {
 					Element premise = outputDoc.createElement("premise");
-					premise.appendChild(outputDoc.createTextNode(s.getPremise(i)));
+					premise.appendChild(outputDoc.createTextNode(s.getPremise(j)));
 					step.appendChild(premise);
 				}
 				
