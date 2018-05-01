@@ -65,6 +65,13 @@ public class Step {
 		}
 	}
 	
+	public void setPremise(String[] p) {
+		this.premises = new String[p.length];
+		for(int i = 0; i < p.length; i++) {
+			this.premises[i] = p[i];
+		}
+	}
+	
 	public int getNumPremises() {
 		return premises.length;
 	}

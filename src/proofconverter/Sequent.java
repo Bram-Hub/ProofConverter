@@ -36,11 +36,7 @@ public class Sequent {
 		
 		for(int i = 0; i < proofLength; i++) {
 			SequentStep s = (SequentStep) p.getStep(i);
-//			for(int j = 0; j < subProofRules.length; j++) {
-//				if(s.getRule().equals(subProofRules[j])) {
-//					output += PrintProof(proofs.get(Integer.valueOf(s.getPremise(0))), indent + 1);
-//				}
-//			}
+
 			String lineNum = s.getLineNum() + ". { ";
 			String sequentStr = "";
 			List<Sentence> sequent = s.getSequent();
@@ -170,7 +166,7 @@ public class Sequent {
 					
 					for(int j = 0; j < s.getNumPremises(); j++) {
 						Element premise = outputDoc.createElement("premise");
-						premise.appendChild(outputDoc.createTextNode(s.getPremise(i)));
+						premise.appendChild(outputDoc.createTextNode(s.getPremise(j)));
 						step.appendChild(premise);
 					}
 					
@@ -225,6 +221,11 @@ public class Sequent {
 //						break;
 //					}
 //					else {
+						String[] premises = new String[1];
+						premises[0] = Integer.toString(proofId + 1);
+						s.setPremise(premises);
+						subproof.remove(subproof.size()-1);
+						subproof.add(s);
 						i = constructSubProofs(proofId + 1, seqSteps, i-1, "other");
 						break;
 					//}

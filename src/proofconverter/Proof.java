@@ -85,7 +85,7 @@ public class Proof {
 	public Proof(int newID, List<Step> s, String t, Sentence g) {
 		this.id = newID;
 		this.goal = g;
-		this.steps = s;
+		this.steps = new ArrayList<Step>(s);
 		this.type = t;
 		this.startLine = Integer.MAX_VALUE;
 		this.endLine = 0;
