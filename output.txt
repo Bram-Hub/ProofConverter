@@ -1,7 +1,9 @@
-1. P->Q		Assumption
-2. ¬Q 		Assumption
-3. | P		Assumption
-4. | Q		MODUS_PONENS
-5. | ⊥		CONTRADICTION_INDRODUCTION
-6. ¬P 		NEGATION_INTRODUCTION
+1. {  P → R } ⊨ P → R                         ASSUMPTION                    
+2. {  Q → R } ⊨ Q → R                         ASSUMPTION                    
+3. {  P ∨ Q } ⊨ P ∨ Q                         ASSUMPTION                    
+4. {  P } ⊨ P                                 ASSUMPTION                    
+6. {  Q } ⊨ Q                                 ASSUMPTION                    
+5. {  P → R, P } ⊨ R                          CONDITIONAL_ELIMINATION       
+7. {  Q → R, Q } ⊨ R                          CONDITIONAL_ELIMINATION       
+8. {  P ∨ Q, P → R, Q → R } ⊨ R               DISJUNCTION_ELIMINATION       
 

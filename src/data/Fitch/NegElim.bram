@@ -3,51 +3,36 @@
 	<Program>Fitch</Program>
 	<Version>1.0</Version>
 	<metadata></metadata>
-
 	<proof id="1">
-		
 		<assumption linenum="1">
 			<sen>(→ P Q)</sen>
 			<raw>P &amp; Q #and maybe a comment here</raw>
 		</assumption>
-		
 		<goal>
 			<sen>Q</sen>
 		</goal>
-		
 		<step linenum="5">
 			<sen>(→ (¬ (¬ P)) Q)</sen>
-			
 			<premise>2</premise>
-			
 			<rule>CONDITIONAL_INTRODUCTION</rule>
 		</step>
 	</proof>
-	
 	<proof id="2">
-		
 		<assumption linenum="2">
 			<sen>(¬ (¬ P))</sen>
 		</assumption>
-		
 		<goal>
 			<sen>Q</sen>
 		</goal>
-		
 		<step linenum="3">
 			<sen>P</sen>
-			
 			<premise>2</premise>
-			
 			<rule>NEGATION_ELIMINATION</rule>
 		</step>
-		
 		<step linenum="4">
 			<sen>Q</sen>
-			
 			<premise>1</premise>
 			<premise>3</premise>
-			
 			<rule>CONDITIONAL_ELIMINATION</rule>
 		</step>
 	</proof>

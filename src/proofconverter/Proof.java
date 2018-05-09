@@ -2,6 +2,8 @@ package proofconverter;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
+
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Element;
@@ -86,6 +88,7 @@ public class Proof {
 		this.id = newID;
 		this.goal = g;
 		this.steps = new ArrayList<Step>(s);
+		Collections.sort(this.steps, new StepComparer());
 		this.type = t;
 		this.startLine = Integer.MAX_VALUE;
 		this.endLine = 0;
@@ -138,5 +141,16 @@ public class Proof {
 	
 	public int getEndLine() {
 		return this.endLine;
+	}
+	
+	public void print() {
+		System.out.println("Printing Proof ID: " + this.id);
+		for(int i = 0; i < steps.size(); i++) {
+			String premises = "";
+			for(int j = 0; j < steps.get(i).getNumPremises(); j++) {
+				premises += " " + steps.get(i).getPremise(j);
+			}
+			System.out.println("\t" + steps.get(i).getLineNum() + ". " + steps.get(i).getSentence().printSentence() + " " + steps.get(i).getRule() + premises);
+		}
 	}
 }

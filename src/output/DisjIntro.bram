@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <bram>
-    <Program>Sequent</Program>
+    <Program>Fitch</Program>
     <Version>1.0</Version>
     <metadata> </metadata>
     <proof id="1">
         <goal>
             <sen>
+            
 			(∨ P Q)
-		</sen>
+		
+        </sen>
         </goal>
         <assumption linenum="1">
-            <sequent>
-                <ant>P</ant>
-            </sequent>
             <sen>P</sen>
         </assumption>
         <step linenum="2">
-            <sequent>
-                <ant>P</ant>
-            </sequent>
             <sen>(∨ P Q)</sen>
             <premise>1</premise>
             <rule>DISJUNCTION_INTRODUCTION</rule>

@@ -3,9 +3,7 @@
 	<Program>Fitch</Program>
 	<Version>1.0</Version>
 	<metadata></metadata>
-
 	<proof id="1">
-		
 		<assumption linenum="1">
 			<sen>(→ P Q)</sen>
 			<raw>P &amp; Q #and maybe a comment here</raw>
@@ -13,17 +11,13 @@
 		<assumption linenum="2">
 			<sen>P</sen>
 		</assumption>
-		
 		<goal>
 			<sen>Q</sen>
 		</goal>
-		
 		<step linenum="3">
 			<sen>Q</sen>
-			
 			<premise>1</premise>
 			<premise>2</premise>
-			
 			<rule>CONDITIONAL_ELIMINATION</rule>
 		</step>
 	</proof>

@@ -67,8 +67,6 @@ public class Fitch {
 			output += String.format("%-6s%-32s%-30s\r\n", lineNum, indent + sentence, rule + premises);
 		}
 		
-		System.out.println(output);
-		
 		return output;
 	}
 	

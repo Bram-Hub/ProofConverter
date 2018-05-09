@@ -6,6 +6,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 import java.util.HashMap;
@@ -13,9 +14,11 @@ import java.util.Iterator;
 
 public class Sequent {
 	
-	private static String[] subProofRules = {"NEGATION_INTRODUCTION", "OR_ELIMINATION", "CONDITIONAL_INTRODUCTION", "BICONDITIONAL_INTRODUCTION"};
+	private static List<String> subProofRules = Arrays.asList("NEGATION_INTRODUCTION", "DISJUNCTION_ELIMINATION", "CONDITIONAL_INTRODUCTION", "BICONDITIONAL_INTRODUCTION");
 	private static Proof seqProof;
 	private static Map<Integer, Proof> proofs;
+	private static List<Step> steps = new ArrayList<Step>();
+	private static List<Step> fitchSteps = new ArrayList<Step>();
 	
 	public static String parse(NodeList proofList) {
 		
@@ -57,10 +60,6 @@ public class Sequent {
 			}
 			output += String.format("%-6s%-40s%-30s\r\n", lineNum, sequentStr + sen, rule + premises);
 		}
-		
-		System.out.println("Proof ID = " + p.getID());
-		System.out.println("-----------------------------------------------------------");
-		System.out.println(output);
 		
 		return output;
 	}
@@ -142,6 +141,13 @@ public class Sequent {
 			proof.setAttribute("id", Integer.toString(proofId));
 			
 			Proof newProof = proofs.get(proofId);
+			
+			Element goal = outputDoc.createElement("goal");
+			Element goalSen = outputDoc.createElement("sen");
+			goalSen.appendChild(outputDoc.createTextNode(newProof.getGoal().printSentencePrefix()));
+			goal.appendChild(goalSen);
+			proof.appendChild(goal);
+			
 			for(int i = 0; i < newProof.getNumSteps(); i++) {
 				Step s = newProof.getStep(i);
 				if(s.getRule().equals("ASSUMPTION")) {
@@ -189,61 +195,157 @@ public class Sequent {
 		return outputDoc;
 	}
 	
-	public static int constructSubProofs(int proofId, List<Step> seqSteps, int step, String rule) {
-		List<Step> subproof = new ArrayList<Step>();
-		for(int i = step; i >= 0; i--) {
-			Step s = seqSteps.get(i);
-			System.out.println(s.getSentence().printSentence() + " " + s.getRule());
-			subproof.add(s);
+	public static String[] createSubProof(int proofID, List<Step> oldSteps, int currStep, List<Sentence> initialAssumptions) {
+		SequentStep initialStep = (SequentStep)oldSteps.get(currStep - 1);
+		List<Step> newSteps = new ArrayList<Step>();
+		String[] premises = null;
+		if(initialStep.getRule().equals("CONDITIONAL_INTRODUCTION") || initialStep.getRule().equals("NEGATION_INTRODUCTION")) {
+			List<Sentence> sequents = ((SequentStep)oldSteps.get(oldSteps.size() - Integer.parseInt(initialStep.getPremise(0)))).getSequent();
+			Sentence seq = null;
+			premises = new String[1];
 			
-			if((s.getRule()).equals("ASSUMPTION")) {
-				System.out.println("Here");
-				Collections.sort(subproof, new StepComparer());
-				Proof p = new Proof(proofId, subproof, "Sequent", subproof.get(subproof.size()-1).getSentence());
-				proofs.put(proofId, p);
-				if(proofId == 1) {
-					continue;
-				}
-				else {
-					return i;
+			for(int i = 0; i < sequents.size(); i++) {
+				if(!initialAssumptions.contains(sequents.get(i))) {
+					seq = sequents.get(i);
 				}
 			}
 			
-			//if step(s) is a subProof rule
-			for(int j = 0; j < subProofRules.length; j++) {
-				if((s.getRule()).equals(subProofRules[j])) {
-//					if((s.getRule()).equals("OR_ELIMINATION")) {
-//						i = constructSubProofs(proofs, proofId + 1, seqSteps, i-1, "OR_ELIMINATION");
-//						break;
-//					}
-//					else if((s.getRule()).equals("BICONDITIONAL_INTRODUCTION")) {
-//						i = constructSubProofs(proofs, proofId + 1, seqSteps, i-1, "BICONDITIONAL_INTRODUCTION");
-//						break;
-//					}
-//					else {
-						String[] premises = new String[1];
-						premises[0] = Integer.toString(proofId + 1);
-						s.setPremise(premises);
-						subproof.remove(subproof.size()-1);
-						subproof.add(s);
-						i = constructSubProofs(proofId + 1, seqSteps, i-1, "other");
-						break;
-					//}
+			for(int i = currStep; i < oldSteps.size(); i++) {
+				SequentStep step = (SequentStep)steps.get(i);
+				if(step.getSequent().contains(seq)) {
+					Step newStep = new Step(step);
+					if(!fitchSteps.contains(newStep)) {
+						if(subProofRules.contains(step.getRule())) {
+							if(newStep.getRule().equals("CONDITIONAL_INTRODUCTION") || newStep.getRule().equals("NEGATION_INTRODUCTION")) {
+								String[] newPremises = createSubProof(proofID, steps, i + 1, initialAssumptions);
+								newStep.setPremise(newPremises);
+							}
+							proofID--;
+						} 
+						newSteps.add(newStep);
+						fitchSteps.add(newStep);
+					}
 				}
 			}
 			
-			
-			
+			Proof p = new Proof(proofID, newSteps, "Fitch", initialStep.getSentence());
+			proofs.put(Integer.valueOf(p.getID()), p);
+			premises[0] = Integer.toString(p.getID());
+		} else if(initialStep.getRule().equals("BICONDITIONAL_INTRODUCTION")) {
+			//Create two subproofs, one for premise 0 and one for premise 1
+			premises = new String[2];
+			for(int i = 0; i < 2; i++) {
+				List<Sentence> sequents = ((SequentStep)oldSteps.get(oldSteps.size() - Integer.parseInt(initialStep.getPremise(i)))).getSequent();
+				Sentence seq = null;
+				
+				for(int j = 0; j < sequents.size(); j++) {
+					if(!initialAssumptions.contains(sequents.get(j))) {
+						seq = sequents.get(j);
+					}
+				}
+				
+				for(int j = currStep; j < oldSteps.size(); j++) {
+					SequentStep step = (SequentStep)steps.get(j);
+					if(step.getSequent().contains(seq)) {
+						Step newStep = new Step(step);
+						if(!fitchSteps.contains(newStep)) {
+							if(subProofRules.contains(step.getRule())) {
+								if(newStep.getRule().equals("CONDITIONAL_INTRODUCTION") || newStep.getRule().equals("NEGATION_INTRODUCTION")) {
+									String[] newPremises = createSubProof(proofID, steps, j + 1, initialAssumptions);
+									newStep.setPremise(newPremises);
+								}
+								proofID--;
+							} 
+							newSteps.add(newStep);
+							fitchSteps.add(newStep);
+						}
+					}
+				}
+				Proof p = new Proof(proofID, newSteps, "Fitch", initialStep.getSentence());
+				proofs.put(Integer.valueOf(p.getID()), p);
+				newSteps.clear();
+				premises[i] = Integer.toString(p.getID());
+				proofID--;
+			}
+		} else if(initialStep.getRule().equals("DISJUNCTION_ELIMINATION")) {
+			premises = new String[3];
+			premises[0] = initialStep.getPremise(0);
+			for(int i = 1; i < 3; i++) {
+				System.out.println(oldSteps.size() + " " + initialStep.getPremise(i));
+				List<Sentence> sequents = ((SequentStep)oldSteps.get(oldSteps.size() - Integer.parseInt(initialStep.getPremise(i)))).getSequent();
+				Sentence seq = null;
+				
+				for(int j = 0; j < sequents.size(); j++) {
+					if(!initialAssumptions.contains(sequents.get(j))) {
+						seq = sequents.get(j);
+					}
+				}
+				
+				for(int j = currStep; j < oldSteps.size(); j++) {
+					SequentStep step = (SequentStep)steps.get(j);
+					if(step.getSequent().contains(seq)) {
+						Step newStep = new Step(step);
+						if(!fitchSteps.contains(newStep)) {
+							if(subProofRules.contains(step.getRule())) {
+								if(newStep.getRule().equals("CONDITIONAL_INTRODUCTION") || newStep.getRule().equals("NEGATION_INTRODUCTION")) {
+									String[] newPremises = createSubProof(proofID, steps, j + 1, initialAssumptions);
+									newStep.setPremise(newPremises);
+								}
+								proofID--;
+							} 
+							newSteps.add(newStep);
+							fitchSteps.add(newStep);
+						}
+					}
+				}
+				Proof p = new Proof(proofID, newSteps, "Fitch", initialStep.getSentence());
+				proofs.put(Integer.valueOf(p.getID()), p);
+				newSteps.clear();
+				premises[i] = Integer.toString(p.getID());
+				proofID--;
+			}
 		}
 		
-		return 0;
+		return premises;
 	}
 	
 	public static void convertProof() {
-
-		List<Step> seqSteps = new ArrayList<Step>(seqProof.getSteps());
-		Collections.sort(seqSteps, new StepComparer());
-		constructSubProofs(1, seqSteps, seqSteps.size()-1, "none");
+		List<Step> newSteps = new ArrayList<Step>();
+		int numProofs = 1;
+		
+		for(int i = 0; i < seqProof.getNumSteps(); i++) {
+			if(seqProof.getStep(i).getRule().equals("CONDITIONAL_INTRODUCTION") || seqProof.getStep(i).getRule().equals("NEGATION_INTRODUCTION")) {
+				numProofs++;
+			} else if(seqProof.getStep(i).getRule().equals("DISJUNCTION_ELIMINATION") || seqProof.getStep(i).getRule().equals("BICONDITIONAL_INTRODUCTION")) {
+				numProofs += 2;
+			}
+			steps.add(seqProof.getStep(i));
+		}
+		Collections.sort(steps, new StepComparer());
+		Collections.reverse(steps);
+		
+		List<Sentence> initialAssumptions = ((SequentStep)steps.get(steps.size() - 1)).getSequent();
+		
+		for(int i = 0; i < steps.size(); i++) {
+			SequentStep step = (SequentStep)steps.get(i);
+			Step newStep = new Step(step);
+			if(!fitchSteps.contains(newStep)) {
+				if(subProofRules.contains(step.getRule())) {
+					String[] newPremises = createSubProof(numProofs - proofs.size(), steps, i + 1, initialAssumptions);
+					newStep.setPremise(newPremises);
+				} 
+				newSteps.add(newStep);
+				fitchSteps.add(newStep);
+			}
+		}
+		Proof p = new Proof(1, newSteps, "Fitch", seqProof.getGoal());
+		proofs.put(1, p);
+		
+//		
+//		List<Step> seqSteps = new ArrayList<Step>(seqProof.getSteps());
+//		Iterator<Step> stepItr = seqSteps.iterator();
+//		Collections.sort(seqSteps, new StepComparer());
+//		constructSubProofs(1, seqSteps, seqSteps.size()-1, "none");
 
 	}
 }

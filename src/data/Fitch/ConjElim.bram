@@ -3,34 +3,25 @@
 	<Program>Fitch</Program>
 	<Version>1.0</Version>
 	<metadata></metadata>
-
 	<proof id="1">
-		
 		<assumption linenum="1">
 			<sen>(∧ P Q)</sen>
 		</assumption>
 		<assumption linenum="2">
 			<sen>(→ P R)</sen>
 		</assumption>
-		
 		<goal>
 			<sen>R</sen>
 		</goal>
-		
 		<step linenum="3">
 			<sen>P</sen>
-			
 			<premise>1</premise>
-			
 			<rule>CONJUNCTION_ELIMINATION</rule>
 		</step>
-		
 		<step linenum="4">
 			<sen>R</sen>
-			
 			<premise>2</premise>
 			<premise>3</premise>
-			
 			<rule>CONDITIONAL_ELIMINATION</rule>
 		</step>
 	</proof>

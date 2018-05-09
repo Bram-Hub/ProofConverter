@@ -72,6 +72,10 @@ public class Step {
 		}
 	}
 	
+	public void setPremise(int i, String s) {
+		this.premises[i] = s;
+	}
+	
 	public int getNumPremises() {
 		return premises.length;
 	}
@@ -82,6 +86,31 @@ public class Step {
 	
 	public void setIndent(int i) {
 		this.indent = i;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == null) {
+			return false;
+		}
+		if(!(obj instanceof Step)) {
+			return false;
+		}
+		Step s = (Step) obj;
+		if(this.sentence.equals(s.sentence) && this.rule.equals(s.rule) && this.lineNum == s.lineNum) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	@Override
+	public int hashCode() {
+	    int hash = 3;
+	    hash = 53 * hash + this.lineNum;
+	    hash = 53 * hash + (this.sentence != null ? this.sentence.hashCode() : 0);
+	    hash = 53 * hash + (this.rule != null ? this.rule.hashCode() : 0);
+	    return hash;
 	}
 	
 	

@@ -1,34 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <bram>
-    <Program>Sequent</Program>
+    <Program>Fitch</Program>
     <Version>1.0</Version>
     <metadata> </metadata>
     <proof id="1">
         <goal>
             <sen>
-			Q
-		</sen>
+            
+			R
+		
+        </sen>
         </goal>
         <assumption linenum="1">
-            <sequent>
-                <ant>(→ P Q)</ant>
-            </sequent>
-            <sen>(→ P Q)</sen>
+            <sen>(∧ P Q)</sen>
         </assumption>
         <assumption linenum="2">
-            <sequent>
-                <ant>P</ant>
-            </sequent>
-            <sen>P</sen>
+            <sen>(→ P R)</sen>
         </assumption>
         <step linenum="3">
-            <sequent>
-                <ant>(→ P Q)</ant>
-                <ant>P</ant>
-            </sequent>
-            <sen>Q</sen>
+            <sen>P</sen>
             <premise>1</premise>
+            <rule>CONJUNCTION_ELIMINATION</rule>
+        </step>
+        <step linenum="4">
+            <sen>R</sen>
             <premise>2</premise>
+            <premise>3</premise>
             <rule>CONDITIONAL_ELIMINATION</rule>
         </step>
     </proof>

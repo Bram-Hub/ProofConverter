@@ -4,6 +4,11 @@
     <Version>1.0</Version>
     <metadata> </metadata>
     <proof id="1">
+        <goal>
+            <sen>
+			(∧ (¬ P) (¬ Q))
+		</sen>
+        </goal>
         <assumption linenum="1">
             <sequent>
                 <ant>(¬ (∨ P Q))</ant>
