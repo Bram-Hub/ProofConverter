@@ -154,6 +154,11 @@ public class Sequent {
 					Element assumption = outputDoc.createElement("assumption");
 					assumption.setAttribute("linenum", Integer.toString(s.getLineNum()));
 					
+					Element goal = outputDoc.createElement("goal");
+					Element goalSen = outputDoc.createElement("sen");
+					goalSen.appendChild(outputDoc.createTextNode(newProof.getGoal().printSentencePrefix()));
+					goal.appendChild(goalSen);
+					proof.appendChild(goal);
 					
 					Element sen = outputDoc.createElement("sen");
 					sen.appendChild(outputDoc.createTextNode(s.getSentence().printSentencePrefix()));
