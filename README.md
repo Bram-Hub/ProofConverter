@@ -1,5 +1,10 @@
-# ProofConverter
+# Sequent to Proof
+## Authors
+2018:
+Christopher Lipscolm
+Max Wang
 
+## About
 This software can be run using Java on the command line. To run this software, type "Java -jar proofConverter.jar command" into the command line. Listed below are the commands that work:
 
 * help
